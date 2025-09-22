@@ -29,5 +29,12 @@ def get_prompt():
     text = _read(DIST / "prompt_pack.md")
     if not text:
         return JSONResponse({"error": "dist/prompt_pack.md not found"}, status_code=404)
-    # text/markdown so browsers render nicely
+    return Response(text, media_type="text/markdown; charset=utf-8")
+
+@app.get("/ai")
+@app.get("/howto")
+def get_ai_guide():
+    text = _read(ROOT / "AI_GUIDE.md")
+    if not text:
+        return JSONResponse({"error": "AI_GUIDE.md not found"}, status_code=404)
     return Response(text, media_type="text/markdown; charset=utf-8")

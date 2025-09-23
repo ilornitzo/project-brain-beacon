@@ -1,1 +1,5 @@
 dist/
+
+# ship STP artifacts on deploy
+!dist/stp.yaml
+!dist/prompt_pack.md

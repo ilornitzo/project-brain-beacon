@@ -1,54 +1,58 @@
 from pathlib import Path
-from fastapi import FastAPI, Response
-from fastapi.responses import JSONResponse, PlainTextResponse
+from os import getenv
+from fastapi import FastAPI
+from fastapi.responses import PlainTextResponse, JSONResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
+GUIDE = ROOT / "AI_GUIDE.md"
 
-app = FastAPI(title="Project Brain Beacon — STP Server")
+app = FastAPI(title="BRaiN — STP Server")
 
-# Enable CORS for frontend dev
-origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+# ---- CORS: accept configured origins or fall back to wildcard ----
+raw = getenv("ALLOWED_ORIGINS", "")
+origins = [o.strip() for o in raw.split(",") if o.strip()]
+if not origins:
+    origins = ["*"]  # permissive fallback for deployment issues
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "OPTIONS"],
     allow_headers=["*"],
+    allow_credentials=False,
 )
 
 @app.get("/healthz")
 def healthz():
-    return {"ok": True}
+    return {"ok": True, "origins": origins}
 
-def _read(path: Path) -> str:
+def _read_text(p: Path) -> str | None:
     try:
-        return path.read_text(encoding="utf-8", errors="replace")
+        return p.read_text(encoding="utf-8", errors="replace")
     except FileNotFoundError:
-        return ""
+        return None
 
-@app.get("/stp")
-def get_stp():
-    text = _read(DIST / "stp.yaml")
-    if not text:
+@app.get("/stp", response_class=PlainTextResponse)
+def stp():
+    text = _read_text(DIST / "stp.yaml")
+    if text is None:
         return JSONResponse({"error": "dist/stp.yaml not found"}, status_code=404)
-    return PlainTextResponse(text, media_type="text/plain; charset=utf-8")
+    return Response(text, media_type="text/plain; charset=utf-8")
 
-@app.get("/prompt_pack")
-def get_prompt():
-    text = _read(DIST / "prompt_pack.md")
-    if not text:
+@app.get("/prompt_pack", response_class=PlainTextResponse)
+def prompt_pack():
+    text = _read_text(DIST / "prompt_pack.md")
+    if text is None:
         return JSONResponse({"error": "dist/prompt_pack.md not found"}, status_code=404)
+    # Send as Markdown-friendly plaintext
     return Response(text, media_type="text/markdown; charset=utf-8")
 
-@app.get("/ai")
-@app.get("/howto")
-def get_ai_guide():
-    text = _read(ROOT / "AI_GUIDE.md")
-    if not text:
+@app.get("/ai", response_class=PlainTextResponse)
+@app.get("/howto", response_class=PlainTextResponse)
+def ai_guide():
+    text = _read_text(GUIDE)
+    if text is None:
         return JSONResponse({"error": "AI_GUIDE.md not found"}, status_code=404)
     return Response(text, media_type="text/markdown; charset=utf-8")

@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-23T22:36:45.447973Z
+Generated: 2025-09-23T22:40:04.074387Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,11 +7,12 @@ Generated: 2025-09-23T22:36:45.447973Z
 - Remote: https://github.com/ilornitzo/project-brain-beacon.git
 
 ## Git Snapshot
-- Last commit: 406c3c8c964635a54956881c8b122f6465db3d44 — api: permissive CORS fallback (accept any origin if env missing/malformed)
+- Last commit: 5610efa54e665f481eda20a59c469a54eb7f5071 — test pre-commit hook
 - Author: Isaac lornitzo
-- Date: 2025-09-23T15:26:02-07:00
+- Date: 2025-09-23T15:36:45-07:00
 
 ## Repo Tree (trimmed)
+    - stp.yml
 - .gitignore
 - AI_GUIDE.md
 - Dockerfile

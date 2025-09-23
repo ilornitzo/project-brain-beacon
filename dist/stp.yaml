@@ -1,15 +1,15 @@
 stp_version: "1"
-generated_at: "2025-09-23T23:43:22.845708Z"
+generated_at: "2025-09-23T23:47:57.343761Z"
 project:
   name: "project-brain-beacon"
   root: "/Users/isaac/project-brain-beacon"
 git:
   branch: "main"
   remote_url: "git@github.com:ilornitzo/project-brain-beacon.git"
-  last_commit_hash: "a56f3818ac4c111489d98295eb3a65902b16e5fb"
-  last_commit_msg: "ci: add STP snapshot workflow [skip ci]"
+  last_commit_hash: "9ba4b364197091304a92e0d881bcc0930a1f00f9"
+  last_commit_msg: "ci: kick STP Snapshot workflow"
   last_commit_author: "Isaac lornitzo"
-  last_commit_date: "2025-09-23T15:40:03-07:00"
+  last_commit_date: "2025-09-23T16:43:22-07:00"
 summary:
   file_count: 27
   tree: "    - stp.yml\n- .gitignore\n- AI_GUIDE.md\n- Dockerfile\n- README.md\n  - .env.production\n  - .gitignore\n  - README.md\n  - eslint.config.js\n  - index.html\n  - package-lock.json\n  - package.json\n    - vite.svg\n    - App.css\n    - App.jsx\n      - react.svg\n      - PromptPackViewer.jsx\n      - STPViewer.jsx\n      - StatusCard.jsx\n    - index.css\n    - main.jsx\n  - vite.config.js\n- render.yaml\n- requirements.txt\n- runtime.txt\n  - stp_make.py\n  - stp_serve.py"

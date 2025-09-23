@@ -1,15 +1,15 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-23T22:40:04.074387Z
+Generated: 2025-09-23T23:43:22.845708Z
 
 ## Project
 - Name: project-brain-beacon
 - Branch: main
-- Remote: https://github.com/ilornitzo/project-brain-beacon.git
+- Remote: git@github.com:ilornitzo/project-brain-beacon.git
 
 ## Git Snapshot
-- Last commit: 5610efa54e665f481eda20a59c469a54eb7f5071 — test pre-commit hook
+- Last commit: a56f3818ac4c111489d98295eb3a65902b16e5fb — ci: add STP snapshot workflow [skip ci]
 - Author: Isaac lornitzo
-- Date: 2025-09-23T15:36:45-07:00
+- Date: 2025-09-23T15:40:03-07:00
 
 ## Repo Tree (trimmed)
     - stp.yml

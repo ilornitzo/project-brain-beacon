@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-23T17:35:13.189248Z
+Generated: 2025-09-23T22:36:45.447973Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,15 +7,16 @@ Generated: 2025-09-23T17:35:13.189248Z
 - Remote: https://github.com/ilornitzo/project-brain-beacon.git
 
 ## Git Snapshot
-- Last commit: 73a4b268e61657be6ddff35a4aef9f23b44c8a9c — Add requirements.txt for Render backend
+- Last commit: 406c3c8c964635a54956881c8b122f6465db3d44 — api: permissive CORS fallback (accept any origin if env missing/malformed)
 - Author: Isaac lornitzo
-- Date: 2025-09-23T10:26:19-07:00
+- Date: 2025-09-23T15:26:02-07:00
 
 ## Repo Tree (trimmed)
 - .gitignore
 - AI_GUIDE.md
 - Dockerfile
 - README.md
+  - .env.production
   - .gitignore
   - README.md
   - eslint.config.js

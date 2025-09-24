@@ -1,18 +1,18 @@
 stp_version: "1"
-generated_at: "2025-09-24T00:24:43.406957Z"
+generated_at: "2025-09-24T00:33:08.476967Z"
 project:
   name: "project-brain-beacon"
-  root: "/Users/isaac/project-brain-beacon"
+  root: "/home/runner/work/project-brain-beacon/project-brain-beacon"
 git:
   branch: "main"
-  remote_url: "git@github.com:ilornitzo/project-brain-beacon.git"
-  last_commit_hash: "9eed5bea9a078dfaf00e5c99f6e6de3e0494d79f"
-  last_commit_msg: "ci: first STP Snapshot run"
+  remote_url: "https://github.com/ilornitzo/project-brain-beacon"
+  last_commit_hash: "2cdae2e8e13dd2539cd141c8c1707dc40473b1b1"
+  last_commit_msg: "api: add /version endpoint"
   last_commit_author: "Isaac lornitzo"
-  last_commit_date: "2025-09-23T17:09:32-07:00"
+  last_commit_date: "2025-09-23T17:24:43-07:00"
 summary:
-  file_count: 27
-  tree: "    - stp.yml\n- .gitignore\n- AI_GUIDE.md\n- Dockerfile\n- README.md\n  - .env.production\n  - .gitignore\n  - README.md\n  - eslint.config.js\n  - index.html\n  - package-lock.json\n  - package.json\n    - vite.svg\n    - App.css\n    - App.jsx\n      - react.svg\n      - PromptPackViewer.jsx\n      - STPViewer.jsx\n      - StatusCard.jsx\n    - index.css\n    - main.jsx\n  - vite.config.js\n- render.yaml\n- requirements.txt\n- runtime.txt\n  - stp_make.py\n  - stp_serve.py"
+  file_count: 26
+  tree: "    - stp.yml\n- .gitignore\n- AI_GUIDE.md\n- README.md\n  - .env.production\n  - .gitignore\n  - README.md\n  - eslint.config.js\n  - index.html\n  - package-lock.json\n  - package.json\n    - vite.svg\n    - App.css\n    - App.jsx\n      - react.svg\n      - PromptPackViewer.jsx\n      - STPViewer.jsx\n      - StatusCard.jsx\n    - index.css\n    - main.jsx\n  - vite.config.js\n- render.yaml\n- requirements.txt\n- runtime.txt\n  - stp_make.py\n  - stp_serve.py"
 commands:
   generate_snapshot: "python3 tools/stp_make.py"
   verify_outputs: "ls -la dist"
@@ -20,6 +20,21 @@ next_actions:
   - "Review dist/prompt_pack.md for accuracy"
   - "Paste prompt_pack.md into a fresh AI thread if transferring context"
 files:
+  -
+    path: "README.md"
+    bytes: 23
+    inline: true
+    content: "# Project Brain Beacon\n"
+  -
+    path: "runtime.txt"
+    bytes: 7
+    inline: true
+    content: "3.11.9\n"
+  -
+    path: "requirements.txt"
+    bytes: 43
+    inline: true
+    content: "fastapi==0.115.2\nuvicorn[standard]==0.30.6\n"
   -
     path: "render.yaml"
     bytes: 725
@@ -31,59 +46,33 @@ files:
     inline: true
     content: "# Project Brain Beacon \u2014 AI Guide\n\n## Purpose\nThis guide tells any AI assistant exactly how to work on this repo: request files, propose full-file replacements, use Redline, run Snapshot Ritual, and ship in small, verifiable steps.\n\n## 1) Behavior Rules\n- One or two commands at a time.\n- Provide full-file replacements; no partial patches or \"open editor\".\n- Assume fresh terminal at repo root; include mkdir -p when needed.\n- Verify each step and wait for confirmation.\n- Prefer small, reversible changes.\n\n## 2) File Request Etiquette\n- Ask for exact paths (e.g., tools/stp_make.py, tools/stp_serve.py, dist/stp.yaml).\n- If large, ask for only the section you need.\n- If unsure, ask to run: python3 tools/stp_make.py && ls -la dist\n\n## 3) Full-File Replacement Pattern\nUse: cat > path/to/file.ext <<'EOF'  (contents)  EOF\n\n## 4) Redline Policy (Change Approval)\n- For changes to behavior/APIs/ports/file shapes: post a short Redline Notice (what, why safer, rollback).\n- Wait for approval on Redline items.\n\n## 5) Snapshot Ritual (STP)\n- Run: python3 tools/stp_make.py ; ls -la dist\n- Artifacts: dist/stp.yaml (machine snapshot), dist/prompt_pack.md (paste-pack).\n\n## 6) Definition of Done (DoD) Template\n- Feature runs locally without errors.\n- Explicit CLI/HTTP checks listed.\n- Files committed and pushed.\n- Tag created: step-XX.\n- Snapshot updated in dist/.\n\n## 7) Troubleshooting Flow\n1) Reproduce with exact command.\n2) Read first error lines.\n3) Check versions/ports/paths.\n4) Apply minimal fix \u2192 verify \u2192 commit.\n5) If blocked, request files or a fresh snapshot.\n\n## 8) Quick Server How-To\n- Start: python3 -m uvicorn tools.stp_serve:app --reload --port 5055\n- GET /healthz \u2192 {\"ok\": true}\n- GET /stp \u2192 YAML snapshot\n- GET /prompt_pack \u2192 Markdown pack\n- GET /ai and /howto \u2192 this guide\n\n## 9) Git Hygiene\n- Write imperative, specific commit messages.\n- Tag completed steps: git tag step-XX && git push origin step-XX\n\n*End of AI Guide.*\n"
   -
-    path: "requirements.txt"
-    bytes: 43
-    inline: true
-    content: "fastapi==0.115.2\nuvicorn[standard]==0.30.6\n"
-  -
-    path: "Dockerfile"
-    bytes: 218
-    inline: false
-  -
-    path: "runtime.txt"
-    bytes: 7
-    inline: true
-    content: "3.11.9\n"
-  -
-    path: "README.md"
-    bytes: 23
-    inline: true
-    content: "# Project Brain Beacon\n"
-  -
     path: ".gitignore"
     bytes: 74
     inline: false
   -
-    path: "tools/stp_make.py"
-    bytes: 3963
+    path: ".github/workflows/stp.yml"
+    bytes: 1494
     inline: true
-    content: "#!/usr/bin/env python3\nfrom pathlib import Path\nfrom datetime import datetime\nimport subprocess, json\n\nROOT = Path(__file__).resolve().parents[1]\nDIST = ROOT / \"dist\"\nDIST.mkdir(parents=True, exist_ok=True)\n\ndef git(*args, default=\"\"):\n    try:\n        return subprocess.check_output([\"git\", *args], cwd=ROOT).decode().strip()\n    except Exception:\n        return default\n\n# --- Git snapshot ---\ngit_info = {\n    \"branch\": git(\"rev-parse\", \"--abbrev-ref\", \"HEAD\"),\n    \"remote_url\": git(\"config\", \"--get\", \"remote.origin.url\"),\n    \"last_commit_hash\": git(\"rev-parse\", \"HEAD\"),\n    \"last_commit_msg\": git(\"log\", \"-1\", \"--pretty=%s\"),\n    \"last_commit_author\": git(\"log\", \"-1\", \"--pretty=%an\"),\n    \"last_commit_date\": git(\"log\", \"-1\", \"--pretty=%cI\"),\n}\n\n# --- Walk repo & select files ---\nEXCLUDE_DIRS = {\".git\", \"dist\", \"__pycache__\", \".idea\", \".vscode\", \"node_modules\", \".venv\", \"venv\"}\nINLINE_EXTS = {\".md\",\".txt\",\".py\",\".json\",\".yml\",\".yaml\",\".toml\",\".sh\",\".cfg\",\".ini\",\".env\",\".gitignore\"}\nMAX_INLINE = 64 * 1024\n\nfiles = []\nfor p in ROOT.rglob(\"*\"):\n    if p.is_dir(): \n        continue\n    rel = p.relative_to(ROOT)\n    if any(part in EXCLUDE_DIRS for part in rel.parts):\n        continue\n    size = p.stat().st_size\n    item = {\"path\": rel.as_posix(), \"bytes\": size}\n    if p.suffix.lower() in INLINE_EXTS and size <= MAX_INLINE:\n        try:\n            item[\"inline\"] = True\n            item[\"content\"] = p.read_text(encoding=\"utf-8\", errors=\"replace\")\n        except Exception:\n            item[\"inline\"] = False\n    else:\n        item[\"inline\"] = False\n    files.append(item)\n\n# --- Tree view ---\ndef tree():\n    lines = []\n    for f in sorted(files, key=lambda x: x[\"path\"]):\n        parts = Path(f[\"path\"]).parts\n        lines.append((\"  \" * (len(parts)-1)) + \"- \" + parts[-1])\n    return \"\\n\".join(lines) if lines else \"(repo minimal)\"\n\n# --- Tiny YAML emitter (for simple shapes) ---\ndef yml(v, ind=0):\n    s = \"  \" * ind\n    if isinstance(v, dict):\n        out=[]\n        for k,val in v.items():\n            if isinstance(val,(dict,list)):\n                out.append(f\"{s}{k}:\")\n                out.append(yml(val, ind+1))\n            else:\n                out.append(f\"{s}{k}: {json.dumps(val)}\")\n        return \"\\n\".join(out)\n    if isinstance(v, list):\n        out=[]\n        for it in v:\n            if isinstance(it,(dict,list)):\n                out.append(f\"{s}-\")\n                out.append(yml(it, ind+1))\n            else:\n                out.append(f\"{s}- {json.dumps(it)}\")\n        return \"\\n\".join(out)\n    return f\"{s}{json.dumps(v)}\"\n\nnow = datetime.utcnow().isoformat()+\"Z\"\nstp = {\n    \"stp_version\":\"1\",\n    \"generated_at\": now,\n    \"project\": {\"name\": ROOT.name, \"root\": str(ROOT)},\n    \"git\": git_info,\n    \"summary\": {\"file_count\": len(files), \"tree\": tree()},\n    \"commands\": {\"generate_snapshot\":\"python3 tools/stp_make.py\",\"verify_outputs\":\"ls -la dist\"},\n    \"next_actions\": [\n        \"Review dist/prompt_pack.md for accuracy\",\n        \"Paste prompt_pack.md into a fresh AI thread if transferring context\"\n    ],\n    \"files\": files\n}\n\n# Write YAML\n(DIST/\"stp.yaml\").write_text(yml(stp), encoding=\"utf-8\")\n\n# Write prompt pack (no code fences to keep it simple)\nprompt = f\"\"\"# Project Brain Beacon \u2014 Prompt Pack\nGenerated: {now}\n\n## Project\n- Name: {ROOT.name}\n- Branch: {git_info.get('branch','')}\n- Remote: {git_info.get('remote_url','')}\n\n## Git Snapshot\n- Last commit: {git_info.get('last_commit_hash','')} \u2014 {git_info.get('last_commit_msg','')}\n- Author: {git_info.get('last_commit_author','')}\n- Date: {git_info.get('last_commit_date','')}\n\n## Repo Tree (trimmed)\n{tree()}\n\n## Recreate snapshot\nRun: python3 tools/stp_make.py  &&  ls -la dist\n\n## Guidance for AI\n- Treat this file and stp.yaml as ground truth.\n- If a needed file is not inlined in stp.yaml, ask for it explicitly.\n\"\"\"\n(DIST/\"prompt_pack.md\").write_text(prompt, encoding=\"utf-8\")\n\nprint(\"\u2705 Snapshot written: dist/stp.yaml, dist/prompt_pack.md\")\n"
+    content: "name: STP Snapshot\n\non:\n  push:\n    branches: [ \"main\" ]\n  workflow_dispatch:\n\npermissions:\n  contents: write\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n\n      - name: Set up Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: \"3.11\"\n\n      - name: Cache pip\n        uses: actions/cache@v4\n        with:\n          path: ~/.cache/pip\n          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}\n          restore-keys: ${{ runner.os }}-pip-\n\n      - name: Install dependencies\n        run: |\n          python -m pip install --upgrade pip\n          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi\n\n      - name: Regenerate STP snapshot\n        run: |\n          mkdir -p dist\n          python tools/stp_make.py\n\n      - name: Upload artifacts\n        uses: actions/upload-artifact@v4\n        with:\n          name: stp-artifacts\n          path: dist/*\n\n      - name: Commit back updated dist\n        if: github.actor != 'github-actions[bot]'\n        run: |\n          git config user.name \"github-actions[bot]\"\n          git config user.email \"41898282+github-actions[bot]@users.noreply.github.com\"\n          git add -f dist/stp.yaml dist/prompt_pack.md\n          if git diff --cached --quiet; then\n            echo \"No changes in dist/*\"\n          else\n            git commit -m \"ci: update STP artifacts [skip ci]\"\n            git push\n          fi\n"
   -
     path: "tools/stp_serve.py"
     bytes: 4182
     inline: true
     content: "import os\nimport json\nimport subprocess\nfrom datetime import datetime\nfrom pathlib import Path\nfrom typing import Optional\n\nfrom fastapi import FastAPI, HTTPException\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom fastapi.responses import PlainTextResponse, JSONResponse\n\ntry:\n    import yaml  # PyYAML\nexcept Exception:  # pragma: no cover\n    yaml = None  # We'll handle lack of PyYAML gracefully.\n\n\n# --- File locations -----------------------------------------------------------\nROOT = Path(__file__).resolve().parents[1]\nDIST = ROOT / \"dist\"\nSTP_YAML = DIST / \"stp.yaml\"\nPROMPT_MD = DIST / \"prompt_pack.md\"\n\n\n# --- Helpers -----------------------------------------------------------------\ndef _read_text(path: Path) -> str:\n    if not path.exists():\n        raise FileNotFoundError(str(path))\n    return path.read_text(encoding=\"utf-8\")\n\n\ndef get_commit_hash() -> str:\n    \"\"\"\n    Best-effort commit hash for /version:\n    1) GIT_COMMIT env (if CI set it),\n    2) `git rev-parse HEAD` if .git exists,\n    3) 'unknown' as fallback.\n    \"\"\"\n    env_hash = os.getenv(\"GIT_COMMIT\")\n    if env_hash:\n        return env_hash.strip()\n\n    git_dir = ROOT / \".git\"\n    if git_dir.exists():\n        try:\n            h = subprocess.check_output([\"git\", \"rev-parse\", \"HEAD\"], cwd=ROOT).decode().strip()\n            return h\n        except Exception:\n            pass\n    return \"unknown\"\n\n\ndef get_stp_generated_at() -> Optional[str]:\n    \"\"\"\n    Pull `generated_at` from dist/stp.yaml if available.\n    Works even if PyYAML isn't installed by doing a quick line scan.\n    \"\"\"\n    if not STP_YAML.exists():\n        return None\n\n    if yaml is not None:\n        try:\n            data = yaml.safe_load(STP_YAML.read_text(encoding=\"utf-8\"))\n            return str(data.get(\"generated_at\")) if isinstance(data, dict) else None\n        except Exception:\n            pass\n\n    # Lightweight fallback: scan for the line beginning with 'generated_at:'\n    try:\n        for line in STP_YAML.read_text(encoding=\"utf-8\").splitlines():\n            if line.strip().startswith(\"generated_at:\"):\n                return line.split(\"generated_at:\", 1)[1].strip().strip('\"\\'')\n    except Exception:\n        pass\n    return None\n\n\n# --- App ---------------------------------------------------------------------\napp = FastAPI(title=\"Project Brain Beacon API\")\n\n# Permissive CORS fallback (frontend handles stricter env-based config)\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],  # safe fallback; tighten via proxy/Render if needed\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n\n\n@app.get(\"/healthz\")\ndef healthz():\n    return {\"ok\": True, \"service\": \"project-brain-beacon\", \"time\": datetime.utcnow().isoformat() + \"Z\"}\n\n\n@app.get(\"/stp\", response_class=PlainTextResponse)\ndef get_stp():\n    try:\n        return _read_text(STP_YAML)\n    except FileNotFoundError:\n        raise HTTPException(status_code=404, detail=\"stp.yaml not found\")\n\n\n@app.get(\"/prompt_pack\", response_class=PlainTextResponse)\ndef get_prompt_pack():\n    try:\n        return _read_text(PROMPT_MD)\n    except FileNotFoundError:\n        raise HTTPException(status_code=404, detail=\"prompt_pack.md not found\")\n\n\n@app.post(\"/ai\")\ndef ai_stub(payload: dict):\n    \"\"\"\n    Minimal placeholder to keep endpoint stable.\n    Mirrors input back; swap with your model call if desired.\n    \"\"\"\n    return {\"ok\": True, \"echo\": payload}\n\n\n@app.get(\"/version\")\ndef version():\n    \"\"\"\n    Tiny helper for UI badges & status panes.\n    Returns commit hash (full + short) and the STP generated_at (if present).\n    \"\"\"\n    commit = get_commit_hash()\n    generated_at = get_stp_generated_at()\n    return JSONResponse(\n        {\n            \"commit\": commit,\n            \"short\": commit[:7] if commit and commit != \"unknown\" else commit,\n            \"generated_at\": generated_at,\n        }\n    )\n\n\n# --- Local dev entry ---------------------------------------------------------\nif __name__ == \"__main__\":\n    # Running directly: `python tools/stp_serve.py`\n    import uvicorn\n\n    port = int(os.getenv(\"PORT\", \"5055\"))\n    uvicorn.run(\"tools.stp_serve:app\", host=\"0.0.0.0\", port=port, reload=True)\n"
   -
-    path: "frontend/.env.production"
-    bytes: 60
-    inline: false
+    path: "tools/stp_make.py"
+    bytes: 3963
+    inline: true
+    content: "#!/usr/bin/env python3\nfrom pathlib import Path\nfrom datetime import datetime\nimport subprocess, json\n\nROOT = Path(__file__).resolve().parents[1]\nDIST = ROOT / \"dist\"\nDIST.mkdir(parents=True, exist_ok=True)\n\ndef git(*args, default=\"\"):\n    try:\n        return subprocess.check_output([\"git\", *args], cwd=ROOT).decode().strip()\n    except Exception:\n        return default\n\n# --- Git snapshot ---\ngit_info = {\n    \"branch\": git(\"rev-parse\", \"--abbrev-ref\", \"HEAD\"),\n    \"remote_url\": git(\"config\", \"--get\", \"remote.origin.url\"),\n    \"last_commit_hash\": git(\"rev-parse\", \"HEAD\"),\n    \"last_commit_msg\": git(\"log\", \"-1\", \"--pretty=%s\"),\n    \"last_commit_author\": git(\"log\", \"-1\", \"--pretty=%an\"),\n    \"last_commit_date\": git(\"log\", \"-1\", \"--pretty=%cI\"),\n}\n\n# --- Walk repo & select files ---\nEXCLUDE_DIRS = {\".git\", \"dist\", \"__pycache__\", \".idea\", \".vscode\", \"node_modules\", \".venv\", \"venv\"}\nINLINE_EXTS = {\".md\",\".txt\",\".py\",\".json\",\".yml\",\".yaml\",\".toml\",\".sh\",\".cfg\",\".ini\",\".env\",\".gitignore\"}\nMAX_INLINE = 64 * 1024\n\nfiles = []\nfor p in ROOT.rglob(\"*\"):\n    if p.is_dir(): \n        continue\n    rel = p.relative_to(ROOT)\n    if any(part in EXCLUDE_DIRS for part in rel.parts):\n        continue\n    size = p.stat().st_size\n    item = {\"path\": rel.as_posix(), \"bytes\": size}\n    if p.suffix.lower() in INLINE_EXTS and size <= MAX_INLINE:\n        try:\n            item[\"inline\"] = True\n            item[\"content\"] = p.read_text(encoding=\"utf-8\", errors=\"replace\")\n        except Exception:\n            item[\"inline\"] = False\n    else:\n        item[\"inline\"] = False\n    files.append(item)\n\n# --- Tree view ---\ndef tree():\n    lines = []\n    for f in sorted(files, key=lambda x: x[\"path\"]):\n        parts = Path(f[\"path\"]).parts\n        lines.append((\"  \" * (len(parts)-1)) + \"- \" + parts[-1])\n    return \"\\n\".join(lines) if lines else \"(repo minimal)\"\n\n# --- Tiny YAML emitter (for simple shapes) ---\ndef yml(v, ind=0):\n    s = \"  \" * ind\n    if isinstance(v, dict):\n        out=[]\n        for k,val in v.items():\n            if isinstance(val,(dict,list)):\n                out.append(f\"{s}{k}:\")\n                out.append(yml(val, ind+1))\n            else:\n                out.append(f\"{s}{k}: {json.dumps(val)}\")\n        return \"\\n\".join(out)\n    if isinstance(v, list):\n        out=[]\n        for it in v:\n            if isinstance(it,(dict,list)):\n                out.append(f\"{s}-\")\n                out.append(yml(it, ind+1))\n            else:\n                out.append(f\"{s}- {json.dumps(it)}\")\n        return \"\\n\".join(out)\n    return f\"{s}{json.dumps(v)}\"\n\nnow = datetime.utcnow().isoformat()+\"Z\"\nstp = {\n    \"stp_version\":\"1\",\n    \"generated_at\": now,\n    \"project\": {\"name\": ROOT.name, \"root\": str(ROOT)},\n    \"git\": git_info,\n    \"summary\": {\"file_count\": len(files), \"tree\": tree()},\n    \"commands\": {\"generate_snapshot\":\"python3 tools/stp_make.py\",\"verify_outputs\":\"ls -la dist\"},\n    \"next_actions\": [\n        \"Review dist/prompt_pack.md for accuracy\",\n        \"Paste prompt_pack.md into a fresh AI thread if transferring context\"\n    ],\n    \"files\": files\n}\n\n# Write YAML\n(DIST/\"stp.yaml\").write_text(yml(stp), encoding=\"utf-8\")\n\n# Write prompt pack (no code fences to keep it simple)\nprompt = f\"\"\"# Project Brain Beacon \u2014 Prompt Pack\nGenerated: {now}\n\n## Project\n- Name: {ROOT.name}\n- Branch: {git_info.get('branch','')}\n- Remote: {git_info.get('remote_url','')}\n\n## Git Snapshot\n- Last commit: {git_info.get('last_commit_hash','')} \u2014 {git_info.get('last_commit_msg','')}\n- Author: {git_info.get('last_commit_author','')}\n- Date: {git_info.get('last_commit_date','')}\n\n## Repo Tree (trimmed)\n{tree()}\n\n## Recreate snapshot\nRun: python3 tools/stp_make.py  &&  ls -la dist\n\n## Guidance for AI\n- Treat this file and stp.yaml as ground truth.\n- If a needed file is not inlined in stp.yaml, ask for it explicitly.\n\"\"\"\n(DIST/\"prompt_pack.md\").write_text(prompt, encoding=\"utf-8\")\n\nprint(\"\u2705 Snapshot written: dist/stp.yaml, dist/prompt_pack.md\")\n"
   -
-    path: "frontend/index.html"
-    bytes: 361
-    inline: false
-  -
-    path: "frontend/vite.config.js"
-    bytes: 161
+    path: "frontend/eslint.config.js"
+    bytes: 763
     inline: false
   -
     path: "frontend/README.md"
     bytes: 856
     inline: true
     content: "# React + Vite\n\nThis template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.\n\nCurrently, two official plugins are available:\n\n- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh\n- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh\n\n## Expanding the ESLint configuration\n\nIf you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.\n"
-  -
-    path: "frontend/.gitignore"
-    bytes: 253
-    inline: false
   -
     path: "frontend/package-lock.json"
     bytes: 96638
@@ -94,17 +83,24 @@ files:
     inline: true
     content: "{\n  \"name\": \"frontend\",\n  \"private\": true,\n  \"version\": \"0.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vite build\",\n    \"lint\": \"eslint .\",\n    \"preview\": \"vite preview\"\n  },\n  \"dependencies\": {\n    \"react\": \"^19.1.1\",\n    \"react-dom\": \"^19.1.1\"\n  },\n  \"devDependencies\": {\n    \"@eslint/js\": \"^9.36.0\",\n    \"@types/react\": \"^19.1.13\",\n    \"@types/react-dom\": \"^19.1.9\",\n    \"@vitejs/plugin-react\": \"^5.0.3\",\n    \"eslint\": \"^9.36.0\",\n    \"eslint-plugin-react-hooks\": \"^5.2.0\",\n    \"eslint-plugin-react-refresh\": \"^0.4.20\",\n    \"globals\": \"^16.4.0\",\n    \"vite\": \"^7.1.7\"\n  }\n}\n"
   -
-    path: "frontend/eslint.config.js"
-    bytes: 763
+    path: "frontend/.gitignore"
+    bytes: 253
     inline: false
   -
-    path: ".github/workflows/stp.yml"
-    bytes: 1494
-    inline: true
-    content: "name: STP Snapshot\n\non:\n  push:\n    branches: [ \"main\" ]\n  workflow_dispatch:\n\npermissions:\n  contents: write\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n\n      - name: Set up Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: \"3.11\"\n\n      - name: Cache pip\n        uses: actions/cache@v4\n        with:\n          path: ~/.cache/pip\n          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}\n          restore-keys: ${{ runner.os }}-pip-\n\n      - name: Install dependencies\n        run: |\n          python -m pip install --upgrade pip\n          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi\n\n      - name: Regenerate STP snapshot\n        run: |\n          mkdir -p dist\n          python tools/stp_make.py\n\n      - name: Upload artifacts\n        uses: actions/upload-artifact@v4\n        with:\n          name: stp-artifacts\n          path: dist/*\n\n      - name: Commit back updated dist\n        if: github.actor != 'github-actions[bot]'\n        run: |\n          git config user.name \"github-actions[bot]\"\n          git config user.email \"41898282+github-actions[bot]@users.noreply.github.com\"\n          git add -f dist/stp.yaml dist/prompt_pack.md\n          if git diff --cached --quiet; then\n            echo \"No changes in dist/*\"\n          else\n            git commit -m \"ci: update STP artifacts [skip ci]\"\n            git push\n          fi\n"
+    path: "frontend/vite.config.js"
+    bytes: 161
+    inline: false
   -
-    path: "frontend/public/vite.svg"
-    bytes: 1497
+    path: "frontend/index.html"
+    bytes: 361
+    inline: false
+  -
+    path: "frontend/.env.production"
+    bytes: 60
+    inline: false
+  -
+    path: "frontend/src/App.jsx"
+    bytes: 644
     inline: false
   -
     path: "frontend/src/App.css"
@@ -119,8 +115,12 @@ files:
     bytes: 229
     inline: false
   -
-    path: "frontend/src/App.jsx"
-    bytes: 644
+    path: "frontend/src/assets/react.svg"
+    bytes: 4126
+    inline: false
+  -
+    path: "frontend/src/components/StatusCard.jsx"
+    bytes: 1422
     inline: false
   -
     path: "frontend/src/components/PromptPackViewer.jsx"
@@ -131,10 +131,6 @@ files:
     bytes: 689
     inline: false
   -
-    path: "frontend/src/components/StatusCard.jsx"
-    bytes: 1422
-    inline: false
-  -
-    path: "frontend/src/assets/react.svg"
-    bytes: 4126
+    path: "frontend/public/vite.svg"
+    bytes: 1497
     inline: false

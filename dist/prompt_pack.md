@@ -1,21 +1,20 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-24T00:24:43.406957Z
+Generated: 2025-09-24T00:33:08.476967Z
 
 ## Project
 - Name: project-brain-beacon
 - Branch: main
-- Remote: git@github.com:ilornitzo/project-brain-beacon.git
+- Remote: https://github.com/ilornitzo/project-brain-beacon
 
 ## Git Snapshot
-- Last commit: 9eed5bea9a078dfaf00e5c99f6e6de3e0494d79f — ci: first STP Snapshot run
+- Last commit: 2cdae2e8e13dd2539cd141c8c1707dc40473b1b1 — api: add /version endpoint
 - Author: Isaac lornitzo
-- Date: 2025-09-23T17:09:32-07:00
+- Date: 2025-09-23T17:24:43-07:00
 
 ## Repo Tree (trimmed)
     - stp.yml
 - .gitignore
 - AI_GUIDE.md
-- Dockerfile
 - README.md
   - .env.production
   - .gitignore

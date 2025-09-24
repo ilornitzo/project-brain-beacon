@@ -1,15 +1,15 @@
 stp_version: "1"
-generated_at: "2025-09-24T20:17:21.134940Z"
+generated_at: "2025-09-24T20:18:02.292014Z"
 project:
   name: "project-brain-beacon"
   root: "/Users/isaac/project-brain-beacon"
 git:
   branch: "main"
   remote_url: "git@github.com:ilornitzo/project-brain-beacon.git"
-  last_commit_hash: "ed4b4a36ef8d4e1c8f1ade47eb55112f66c4d125"
-  last_commit_msg: "ci: update STP artifacts [skip ci]"
-  last_commit_author: "github-actions[bot]"
-  last_commit_date: "2025-09-24T00:33:09+00:00"
+  last_commit_hash: "62467df7975258558cc397d1272ce88509e0fc34"
+  last_commit_msg: "chore: add SOS baseline (.env.sample, .gitignore, autoring)"
+  last_commit_author: "Isaac lornitzo"
+  last_commit_date: "2025-09-24T13:17:21-07:00"
 summary:
   file_count: 50
   tree: "- .env\n- .env.sample\n    - stp.yml\n- .gitignore\n  - .ring\n  - help_2025-09-24_09-34-49.txt\n  - help_2025-09-24_09-37-13.txt\n  - help_2025-09-24_10-25-29.txt\n  - help_2025-09-24_10-29-30.txt\n  - help_2025-09-24_10-53-26.txt\n  - help_2025-09-24_11-07-52.txt\n  - help_2025-09-24_12-05-51.txt\n  - help_2025-09-24_12-07-09.txt\n  - help_2025-09-24_12-08-04.txt\n  - help_2025-09-24_12-25-10.txt\n  - help_2025-09-24_12-26-41.txt\n  - help_2025-09-24_13-00-27.txt\n  - help_2025-09-24_13-02-31.txt\n  - help_2025-09-24_13-02-58.txt\n  - help_2025-09-24_13-07-55.txt\n  - help_2025-09-24_13-12-30.txt\n  - help_2025-09-24_13-14-26.txt\n  - help_2025-09-24_13-15-28.txt\n- .sos_autoring\n- AI_GUIDE.md\n- Dockerfile\n- README.md\n  - .env.production\n  - .gitignore\n  - README.md\n  - eslint.config.js\n  - index.html\n  - package-lock.json\n  - package.json\n    - vite.svg\n    - App.css\n    - App.jsx\n      - react.svg\n      - PromptPackViewer.jsx\n      - STPViewer.jsx\n      - StatusCard.jsx\n    - index.css\n    - main.jsx\n    - version-badge.js\n  - vite.config.js\n- render.yaml\n- requirements.txt\n- runtime.txt\n  - stp_make.py\n  - stp_serve.py"
@@ -166,7 +166,7 @@ files:
     content: "cwd: /Users/isaac/project-brain-beacon\nbranch: HEAD @ 288cb62\nnode: v22.18.0 | npm: 10.9.3 | python: 3.13.1\n\n== ports (5090/5173) ==\n(none)\n\n== make doctor ==\nmake: *** No rule to make target `doctor'.  Stop.\n"
   -
     path: ".logs/.ring"
-    bytes: 4532
+    bytes: 4629
     inline: false
   -
     path: ".logs/help_2025-09-24_13-00-27.txt"

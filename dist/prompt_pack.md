@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-24T20:17:21.134940Z
+Generated: 2025-09-24T20:18:02.292014Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,9 +7,9 @@ Generated: 2025-09-24T20:17:21.134940Z
 - Remote: git@github.com:ilornitzo/project-brain-beacon.git
 
 ## Git Snapshot
-- Last commit: ed4b4a36ef8d4e1c8f1ade47eb55112f66c4d125 — ci: update STP artifacts [skip ci]
-- Author: github-actions[bot]
-- Date: 2025-09-24T00:33:09+00:00
+- Last commit: 62467df7975258558cc397d1272ce88509e0fc34 — chore: add SOS baseline (.env.sample, .gitignore, autoring)
+- Author: Isaac lornitzo
+- Date: 2025-09-24T13:17:21-07:00
 
 ## Repo Tree (trimmed)
 - .env

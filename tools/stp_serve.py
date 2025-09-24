@@ -1,58 +1,144 @@
+import os
+import json
+import subprocess
+from datetime import datetime
 from pathlib import Path
-from os import getenv
-from fastapi import FastAPI
-from fastapi.responses import PlainTextResponse, JSONResponse, Response
-from fastapi.middleware.cors import CORSMiddleware
+from typing import Optional
 
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse, JSONResponse
+
+try:
+    import yaml  # PyYAML
+except Exception:  # pragma: no cover
+    yaml = None  # We'll handle lack of PyYAML gracefully.
+
+
+# --- File locations -----------------------------------------------------------
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
-GUIDE = ROOT / "AI_GUIDE.md"
+STP_YAML = DIST / "stp.yaml"
+PROMPT_MD = DIST / "prompt_pack.md"
 
-app = FastAPI(title="BRaiN — STP Server")
 
-# ---- CORS: accept configured origins or fall back to wildcard ----
-raw = getenv("ALLOWED_ORIGINS", "")
-origins = [o.strip() for o in raw.split(",") if o.strip()]
-if not origins:
-    origins = ["*"]  # permissive fallback for deployment issues
+# --- Helpers -----------------------------------------------------------------
+def _read_text(path: Path) -> str:
+    if not path.exists():
+        raise FileNotFoundError(str(path))
+    return path.read_text(encoding="utf-8")
 
+
+def get_commit_hash() -> str:
+    """
+    Best-effort commit hash for /version:
+    1) GIT_COMMIT env (if CI set it),
+    2) `git rev-parse HEAD` if .git exists,
+    3) 'unknown' as fallback.
+    """
+    env_hash = os.getenv("GIT_COMMIT")
+    if env_hash:
+        return env_hash.strip()
+
+    git_dir = ROOT / ".git"
+    if git_dir.exists():
+        try:
+            h = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()
+            return h
+        except Exception:
+            pass
+    return "unknown"
+
+
+def get_stp_generated_at() -> Optional[str]:
+    """
+    Pull `generated_at` from dist/stp.yaml if available.
+    Works even if PyYAML isn't installed by doing a quick line scan.
+    """
+    if not STP_YAML.exists():
+        return None
+
+    if yaml is not None:
+        try:
+            data = yaml.safe_load(STP_YAML.read_text(encoding="utf-8"))
+            return str(data.get("generated_at")) if isinstance(data, dict) else None
+        except Exception:
+            pass
+
+    # Lightweight fallback: scan for the line beginning with 'generated_at:'
+    try:
+        for line in STP_YAML.read_text(encoding="utf-8").splitlines():
+            if line.strip().startswith("generated_at:"):
+                return line.split("generated_at:", 1)[1].strip().strip('"\'')
+    except Exception:
+        pass
+    return None
+
+
+# --- App ---------------------------------------------------------------------
+app = FastAPI(title="Project Brain Beacon API")
+
+# Permissive CORS fallback (frontend handles stricter env-based config)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_methods=["GET", "OPTIONS"],
+    allow_origins=["*"],  # safe fallback; tighten via proxy/Render if needed
+    allow_credentials=True,
+    allow_methods=["*"],
     allow_headers=["*"],
-    allow_credentials=False,
 )
+
 
 @app.get("/healthz")
 def healthz():
-    return {"ok": True, "origins": origins}
+    return {"ok": True, "service": "project-brain-beacon", "time": datetime.utcnow().isoformat() + "Z"}
 
-def _read_text(p: Path) -> str | None:
-    try:
-        return p.read_text(encoding="utf-8", errors="replace")
-    except FileNotFoundError:
-        return None
 
 @app.get("/stp", response_class=PlainTextResponse)
-def stp():
-    text = _read_text(DIST / "stp.yaml")
-    if text is None:
-        return JSONResponse({"error": "dist/stp.yaml not found"}, status_code=404)
-    return Response(text, media_type="text/plain; charset=utf-8")
+def get_stp():
+    try:
+        return _read_text(STP_YAML)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="stp.yaml not found")
+
 
 @app.get("/prompt_pack", response_class=PlainTextResponse)
-def prompt_pack():
-    text = _read_text(DIST / "prompt_pack.md")
-    if text is None:
-        return JSONResponse({"error": "dist/prompt_pack.md not found"}, status_code=404)
-    # Send as Markdown-friendly plaintext
-    return Response(text, media_type="text/markdown; charset=utf-8")
+def get_prompt_pack():
+    try:
+        return _read_text(PROMPT_MD)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="prompt_pack.md not found")
 
-@app.get("/ai", response_class=PlainTextResponse)
-@app.get("/howto", response_class=PlainTextResponse)
-def ai_guide():
-    text = _read_text(GUIDE)
-    if text is None:
-        return JSONResponse({"error": "AI_GUIDE.md not found"}, status_code=404)
-    return Response(text, media_type="text/markdown; charset=utf-8")
+
+@app.post("/ai")
+def ai_stub(payload: dict):
+    """
+    Minimal placeholder to keep endpoint stable.
+    Mirrors input back; swap with your model call if desired.
+    """
+    return {"ok": True, "echo": payload}
+
+
+@app.get("/version")
+def version():
+    """
+    Tiny helper for UI badges & status panes.
+    Returns commit hash (full + short) and the STP generated_at (if present).
+    """
+    commit = get_commit_hash()
+    generated_at = get_stp_generated_at()
+    return JSONResponse(
+        {
+            "commit": commit,
+            "short": commit[:7] if commit and commit != "unknown" else commit,
+            "generated_at": generated_at,
+        }
+    )
+
+
+# --- Local dev entry ---------------------------------------------------------
+if __name__ == "__main__":
+    # Running directly: `python tools/stp_serve.py`
+    import uvicorn
+
+    port = int(os.getenv("PORT", "5055"))
+    uvicorn.run("tools.stp_serve:app", host="0.0.0.0", port=port, reload=True)

@@ -1,18 +1,18 @@
 stp_version: "1"
-generated_at: "2025-09-25T18:29:46.919283Z"
+generated_at: "2025-09-25T21:29:00.868095Z"
 project:
   name: "project-brain-beacon"
   root: "/Users/isaac/project-brain-beacon"
 git:
   branch: "main"
   remote_url: "git@github.com:ilornitzo/project-brain-beacon.git"
-  last_commit_hash: "f0dbc415f07f3630461df674b3c20c7dd3865b04"
-  last_commit_msg: "ui: add version badge (backend commit + generated_at)"
+  last_commit_hash: "1a55a09f3ddd948cf4b8260006ca3c2e018a9924"
+  last_commit_msg: "checkpoint: pre Step-09 (before Copy footer enhancement)"
   last_commit_author: "Isaac lornitzo"
-  last_commit_date: "2025-09-24T13:18:02-07:00"
+  last_commit_date: "2025-09-25T14:11:03-07:00"
 summary:
-  file_count: 87
-  tree: "- .env\n- .env.sample\n    - stp.yml\n- .gitignore\n  - .ring\n  - .ring.bg\n  - .ring.pid\n  - .ring.test\n  - _last.log\n  - help_2025-09-24_09-34-49.txt\n  - help_2025-09-24_09-37-13.txt\n  - help_2025-09-24_10-25-29.txt\n  - help_2025-09-24_10-29-30.txt\n  - help_2025-09-24_10-53-26.txt\n  - help_2025-09-24_11-07-52.txt\n  - help_2025-09-24_12-05-51.txt\n  - help_2025-09-24_12-07-09.txt\n  - help_2025-09-24_12-08-04.txt\n  - help_2025-09-24_12-25-10.txt\n  - help_2025-09-24_12-26-41.txt\n  - help_2025-09-24_13-00-27.txt\n  - help_2025-09-24_13-02-31.txt\n  - help_2025-09-24_13-02-58.txt\n  - help_2025-09-24_13-07-55.txt\n  - help_2025-09-24_13-12-30.txt\n  - help_2025-09-24_13-14-26.txt\n  - help_2025-09-24_13-15-28.txt\n  - help_2025-09-24_13-19-59.txt\n  - help_2025-09-24_13-25-27.txt\n  - help_2025-09-24_13-36-18.txt\n  - help_2025-09-24_13-54-10.txt\n  - help_2025-09-24_13-54-39.txt\n  - help_2025-09-24_14-02-16.txt\n  - help_2025-09-24_14-02-19.txt\n  - help_2025-09-24_14-11-22.txt\n  - help_2025-09-24_14-17-28.txt\n  - help_2025-09-24_14-18-01.txt\n  - help_2025-09-24_19-15-07.txt\n  - help_2025-09-24_19-18-56.txt\n  - help_2025-09-24_19-19-32.txt\n  - help_2025-09-24_19-56-20.txt\n  - help_2025-09-24_20-01-02.txt\n  - help_2025-09-24_20-04-33.txt\n  - help_2025-09-24_20-07-43.txt\n  - help_2025-09-24_20-16-29.txt\n  - help_2025-09-24_20-17-07.txt\n  - help_2025-09-24_20-23-07.txt\n  - help_2025-09-24_20-27-22.txt\n  - help_2025-09-24_20-27-41.txt\n  - help_2025-09-25_09-00-42.txt\n  - help_2025-09-25_09-03-08.txt\n  - help_2025-09-25_09-04-58.txt\n  - help_2025-09-25_09-14-06.txt\n  - help_2025-09-25_09-18-08.txt\n  - help_2025-09-25_09-19-03.txt\n  - help_2025-09-25_09-19-46.txt\n  - help_2025-09-25_10-26-09.txt\n  - help_2025-09-25_10-42-30.txt\n  - help_2025-09-25_10-48-52.txt\n  - help_2025-09-25_10-56-28.txt\n- .sos_autoring\n- AI_GUIDE.md\n- Dockerfile\n- README.md\n  - .env.production\n  - .gitignore\n  - README.md\n  - eslint.config.js\n  - index.html\n  - package-lock.json\n  - package.json\n    - vite.svg\n    - App.css\n    - App.jsx\n      - react.svg\n      - PromptPackViewer.jsx\n      - STPViewer.jsx\n      - StatusCard.jsx\n    - index.css\n    - main.jsx\n    - version-badge.js\n  - vite.config.js\n- render.yaml\n- requirements.txt\n- runtime.txt\n  - stp_make.py\n  - stp_serve.py"
+  file_count: 93
+  tree: "- .env\n- .env.sample\n    - stp.yml\n- .gitignore\n  - .ring\n  - .ring.bg\n  - .ring.pid\n  - .ring.test\n  - _last.log\n  - help_2025-09-24_09-34-49.txt\n  - help_2025-09-24_09-37-13.txt\n  - help_2025-09-24_10-25-29.txt\n  - help_2025-09-24_10-29-30.txt\n  - help_2025-09-24_10-53-26.txt\n  - help_2025-09-24_11-07-52.txt\n  - help_2025-09-24_12-05-51.txt\n  - help_2025-09-24_12-07-09.txt\n  - help_2025-09-24_12-08-04.txt\n  - help_2025-09-24_12-25-10.txt\n  - help_2025-09-24_12-26-41.txt\n  - help_2025-09-24_13-00-27.txt\n  - help_2025-09-24_13-02-31.txt\n  - help_2025-09-24_13-02-58.txt\n  - help_2025-09-24_13-07-55.txt\n  - help_2025-09-24_13-12-30.txt\n  - help_2025-09-24_13-14-26.txt\n  - help_2025-09-24_13-15-28.txt\n  - help_2025-09-24_13-19-59.txt\n  - help_2025-09-24_13-25-27.txt\n  - help_2025-09-24_13-36-18.txt\n  - help_2025-09-24_13-54-10.txt\n  - help_2025-09-24_13-54-39.txt\n  - help_2025-09-24_14-02-16.txt\n  - help_2025-09-24_14-02-19.txt\n  - help_2025-09-24_14-11-22.txt\n  - help_2025-09-24_14-17-28.txt\n  - help_2025-09-24_14-18-01.txt\n  - help_2025-09-24_19-15-07.txt\n  - help_2025-09-24_19-18-56.txt\n  - help_2025-09-24_19-19-32.txt\n  - help_2025-09-24_19-56-20.txt\n  - help_2025-09-24_20-01-02.txt\n  - help_2025-09-24_20-04-33.txt\n  - help_2025-09-24_20-07-43.txt\n  - help_2025-09-24_20-16-29.txt\n  - help_2025-09-24_20-17-07.txt\n  - help_2025-09-24_20-23-07.txt\n  - help_2025-09-24_20-27-22.txt\n  - help_2025-09-24_20-27-41.txt\n  - help_2025-09-25_09-00-42.txt\n  - help_2025-09-25_09-03-08.txt\n  - help_2025-09-25_09-04-58.txt\n  - help_2025-09-25_09-14-06.txt\n  - help_2025-09-25_09-18-08.txt\n  - help_2025-09-25_09-19-03.txt\n  - help_2025-09-25_09-19-46.txt\n  - help_2025-09-25_10-26-09.txt\n  - help_2025-09-25_10-42-30.txt\n  - help_2025-09-25_10-48-52.txt\n  - help_2025-09-25_10-56-28.txt\n  - help_2025-09-25_11-30-10.txt\n  - help_2025-09-25_11-35-54.txt\n  - help_2025-09-25_11-38-26.txt\n  - help_2025-09-25_11-40-10.txt\n  - help_2025-09-25_14-09-45.txt\n- .sos_autoring\n- AI_GUIDE.md\n- Dockerfile\n- README.md\n  - .env.local\n  - .env.production\n  - .gitignore\n  - README.md\n  - eslint.config.js\n  - index.html\n  - package-lock.json\n  - package.json\n    - vite.svg\n    - App.css\n    - App.jsx\n      - react.svg\n      - PromptPackViewer.jsx\n      - STPViewer.jsx\n      - StatusCard.jsx\n    - index.css\n    - main.jsx\n    - version-badge.js\n  - vite.config.js\n- render.yaml\n- requirements.txt\n- runtime.txt\n  - stp_make.py\n  - stp_serve.py"
 commands:
   generate_snapshot: "python3 tools/stp_make.py"
   verify_outputs: "ls -la dist"
@@ -84,6 +84,10 @@ files:
     bytes: 361
     inline: false
   -
+    path: "frontend/.env.local"
+    bytes: 36
+    inline: false
+  -
     path: "frontend/vite.config.js"
     bytes: 161
     inline: false
@@ -149,6 +153,11 @@ files:
     inline: true
     content: "cwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch: HEAD @ 288cb62\nnode: v22.18.0 | npm: 10.9.3 | python: 3.13.1\n\n== last command ==\n\t ls /definitely/not/here\nexit code: 1\n\n== ports (5090/5173) ==\n(none)\n\n== recent terminal output (last 200 lines) ==\nisaacs-MacBook-Pro:project-brain-beacon isaac$ ls /definitely/not/here\nls: /definitely/not/here: No such file or directory\n\n== doctor ==\nroot: /Users/isaac/project-brain-beacon\ngit:  HEAD @ 288cb62\nnode: v22.18.0\nnpm:  10.9.3\npy:   3.13.1\nports (5090/5173):\n(none)\ndoctor: OK (inline)\n"
   -
+    path: ".logs/help_2025-09-25_14-09-45.txt"
+    bytes: 1267
+    inline: true
+    content: "Where:\ncwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch @ shortSHA: HEAD @ 7e4cd9b\n\nWith what:\n node:  v22.18.0\n npm:   10.9.3\n py3:   Python 3.13.1\n\n== last command ==\ngit status -sb\nexit: 0\n\n== ports (5090/5173) ==\nCOMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME\nnode    37111 isaac   18u  IPv6 0x2c7d3c1e43224c46      0t0  TCP [::1]:5173 (LISTEN)\n\n== recent terminal output (last 10 lines) ==\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ cd ~/project-brain-beacon\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ git status -sb\n## HEAD (no branch)\nA  Dockerfile\nM  dist/prompt_pack.md\nM  dist/stp.yaml\nA  tools/__pycache__/stp_serve.cpython-313.pyc\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ sos 10\n\n== doctor ==\nrepo_root: /Users/isaac/project-brain-beacon\nnode:  v22.18.0\nnpm:   10.9.3\npy3:   Python 3.13.1\n\n== ports (5090/5173) ==\nCOMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME\nnode    37111 isaac   18u  IPv6 0x2c7d3c1e43224c46      0t0  TCP [::1]:5173 (LISTEN)\n"
+  -
     path: ".logs/help_2025-09-25_10-26-09.txt"
     bytes: 592
     inline: true
@@ -184,6 +193,11 @@ files:
     inline: true
     content: "Where:\ncwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch @ shortSHA: main @ f0dbc41\n\nWith what:\n node:  v22.18.0\n npm:   10.9.3\n py3:   Python 3.13.1\n\n== last command ==\nhello tail\\nls: /definitely/not/here: No such file or directory\nexit: 0\n\n== ports (5090/5173) ==\n(none)\n\n== recent terminal output (last 5 lines) ==\n\n\n== doctor ==\nrepo_root: /Users/isaac/project-brain-beacon\nnode:  v22.18.0\nnpm:   10.9.3\npy3:   Python 3.13.1\n\n== ports (5090/5173) ==\n(none)\n"
   -
+    path: ".logs/help_2025-09-25_11-38-26.txt"
+    bytes: 822
+    inline: true
+    content: "Where:\ncwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch @ shortSHA: HEAD @ 7e4cd9b\n\nWith what:\n node:  v22.18.0\n npm:   10.9.3\n py3:   Python 3.13.1\n\n== last command ==\ngit checkout --theirs dist/stp.yaml dist/prompt_pack.md && git add dist/stp.yaml dist/prompt_pack.md && git rebase --continue\nexit: 1\n\n== ports (5090/5173) ==\n(none)\n\n== recent terminal output (last 5 lines) ==\ndist\nhint: Use -f if you really want to add them.\nhint: Turn this message off by running\nhint: \"git config advice.addIgnoredFile false\"\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ sos 5\n\n== doctor ==\nrepo_root: /Users/isaac/project-brain-beacon\nnode:  v22.18.0\nnpm:   10.9.3\npy3:   Python 3.13.1\n\n== ports (5090/5173) ==\n(none)\n"
+  -
     path: ".logs/help_2025-09-24_20-16-29.txt"
     bytes: 487
     inline: true
@@ -211,6 +225,11 @@ files:
     path: ".logs/.ring.test"
     bytes: 27
     inline: false
+  -
+    path: ".logs/help_2025-09-25_11-40-10.txt"
+    bytes: 1467
+    inline: true
+    content: "Where:\ncwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch @ shortSHA: HEAD @ 7e4cd9b\n\nWith what:\n node:  v22.18.0\n npm:   10.9.3\n py3:   Python 3.13.1\n\n== last command ==\nssos 20\nexit: 127\n\n== ports (5090/5173) ==\n(none)\n\n== recent terminal output (last 20 lines) ==\n\n== doctor ==\nrepo_root: /Users/isaac/project-brain-beacon\nnode:  v22.18.0\nnpm:   10.9.3\npy3:   Python 3.13.1\n\n== ports (5090/5173) ==\n(none)\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ git push origin main\nTo github.com:ilornitzo/project-brain-beacon.git\n ! [rejected]        main -> main (non-fast-forward)\nerror: failed to push some refs to 'github.com:ilornitzo/project-brain-beacon.git'\nhint: Updates were rejected because a pushed branch tip is behind its remote\nhint: counterpart. Check out this branch and integrate the remote changes\nhint: (e.g. 'git pull ...') before pushing again.\nhint: See the 'Note about fast-forwards' in 'git push --help' for details.\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ ssos 20\n-bash: ssos: command not found\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ sos 20\n\n== doctor ==\nrepo_root: /Users/isaac/project-brain-beacon\nnode:  v22.18.0\nnpm:   10.9.3\npy3:   Python 3.13.1\n\n== ports (5090/5173) ==\n(none)\n"
   -
     path: ".logs/help_2025-09-24_20-27-22.txt"
     bytes: 490
@@ -293,7 +312,7 @@ files:
     content: "Where:\ncwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch @ shortSHA: main @ f0dbc41\n\nWith what:\n node:  v22.18.0\n npm:   10.9.3\n py3:   Python 3.13.1\n\n== last command ==\nhello tail\\nls: /definitely/not/here: No such file or directory\nexit: 1\n\n== ports (5090/5173) ==\n(none)\n\n== recent terminal output (last 5 lines) ==\n\n\n== doctor ==\nrepo_root: /Users/isaac/project-brain-beacon\nnode:  v22.18.0\nnpm:   10.9.3\npy3:   Python 3.13.1\n\n== ports (5090/5173) ==\n(none)\n"
   -
     path: ".logs/.ring"
-    bytes: 7002
+    bytes: 24971
     inline: false
   -
     path: ".logs/help_2025-09-25_09-19-46.txt"
@@ -310,6 +329,11 @@ files:
     bytes: 524
     inline: true
     content: "Where:\ncwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch @ shortSHA: main @ f0dbc41\n\nWith what:\n node:  v22.18.0\n npm:   10.9.3\n py3:   Python 3.13.1\n\n== last command ==\necho \"hello tail\"; ls /definitely/not/here || true\\nsos 5\\npbpaste | sed -n '1,20p'\nexit: 0\n\n== ports (5090/5173) ==\n(none)\n\n== recent terminal output (last 20 lines) ==\n\n\n== doctor ==\nrepo_root: /Users/isaac/project-brain-beacon\nnode:  v22.18.0\nnpm:   10.9.3\npy3:   Python 3.13.1\n\n== ports (5090/5173) ==\n(none)\n"
+  -
+    path: ".logs/help_2025-09-25_11-35-54.txt"
+    bytes: 1906
+    inline: true
+    content: "Where:\ncwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch @ shortSHA: HEAD @ 7e4cd9b\n\nWith what:\n node:  v22.18.0\n npm:   10.9.3\n py3:   Python 3.13.1\n\n== last command ==\ngit push origin main --follow-tags\nexit: 1\n\n== ports (5090/5173) ==\n(none)\n\n== recent terminal output (last 20 lines) ==\n   f0dbc41..7e4cd9b  main       -> origin/main\nRebasing (1/1)Auto-merging dist/prompt_pack.md\nCONFLICT (content): Merge conflict in dist/prompt_pack.md\nAuto-merging dist/stp.yaml\nCONFLICT (content): Merge conflict in dist/stp.yaml\nerror: could not apply cd84123... checkpoint: pre Step-09 (before Copy footer enhancement)\nhint: Resolve all conflicts manually, mark them as resolved with\nhint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\".\nhint: You can instead skip this commit: run \"git rebase --skip\".\nhint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\".\nCould not apply cd84123... checkpoint: pre Step-09 (before Copy footer enhancement)\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ git push origin main --follow-tags\nTo github.com:ilornitzo/project-brain-beacon.git\n ! [rejected]        main -> main (non-fast-forward)\nerror: failed to push some refs to 'github.com:ilornitzo/project-brain-beacon.git'\nhint: Updates were rejected because a pushed branch tip is behind its remote\nhint: counterpart. Check out this branch and integrate the remote changes\nhint: (e.g. 'git pull ...') before pushing again.\nhint: See the 'Note about fast-forwards' in 'git push --help' for details.\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ sos 20\n\n== doctor ==\nrepo_root: /Users/isaac/project-brain-beacon\nnode:  v22.18.0\nnpm:   10.9.3\npy3:   Python 3.13.1\n\n== ports (5090/5173) ==\n(none)\n"
   -
     path: ".logs/help_2025-09-24_14-17-28.txt"
     bytes: 967
@@ -380,6 +404,11 @@ files:
     inline: true
     content: "cwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch: main @ ed4b4a3\nnode: v22.18.0 | npm: 10.9.3 | python: 3.13.1\n\n== last command ==\n  \t git status -sb && git remote -v\nexit code: 0\n\n== ports (5090/5173) ==\nnode      21803 isaac   18u  IPv6 0xf5107ef84fdd1a46      0t0  TCP [::1]:5173 (LISTEN)\n\n== recent terminal output (last 200 lines) ==\nisaacs-MacBook-Pro:project-brain-beacon isaac$ ls /definitely/not/here\nls: /definitely/not/here: No such file or directory\n## main...origin/main\n?? .env\n?? .env.sample\n?? .logs/\n?? .sos_autoring\n?? Dockerfile\n?? frontend/src/version-badge.js\n?? tools/__pycache__/\norigin\tgit@github.com:ilornitzo/project-brain-beacon.git (fetch)\norigin\tgit@github.com:ilornitzo/project-brain-beacon.git (push)\n\n== doctor ==\nroot: /Users/isaac/project-brain-beacon\ngit:  main @ ed4b4a3\nnode: v22.18.0\nnpm:  10.9.3\npy:   3.13.1\nports (5090/5173):\nnode      21803 isaac   18u  IPv6 0xf5107ef84fdd1a46      0t0  TCP [::1]:5173 (LISTEN)\ndoctor: OK (inline)\n"
   -
+    path: ".logs/help_2025-09-25_11-30-10.txt"
+    bytes: 1558
+    inline: true
+    content: "Where:\ncwd: /Users/isaac/project-brain-beacon\nrepo_root: /Users/isaac/project-brain-beacon\nbranch @ shortSHA: main @ cd84123\n\nWith what:\n node:  v22.18.0\n npm:   10.9.3\n py3:   Python 3.13.1\n\n== last command ==\ngit commit -m \"checkpoint: pre Step-09 (before Copy footer enhancement)\" && git tag -f step-08.9 && git push origin main --follow-tags\nexit: 1\n\n== ports (5090/5173) ==\n(none)\n\n== recent terminal output (last 20 lines) ==\nyour configuration file:\n\n    git config --global --edit\n\nAfter doing this, you may fix the identity used for this commit with:\n\n    git commit --amend --reset-author\n\n 4 files changed, 236 insertions(+), 10 deletions(-)\n create mode 100644 Dockerfile\n create mode 100644 tools/__pycache__/stp_serve.cpython-313.pyc\nTo github.com:ilornitzo/project-brain-beacon.git\n ! [rejected]        main -> main (fetch first)\nerror: failed to push some refs to 'github.com:ilornitzo/project-brain-beacon.git'\nhint: Updates were rejected because the remote contains work that you do\nhint: not have locally. This is usually caused by another repository pushing\nhint: to the same ref. You may want to first integrate the remote changes\nhint: (e.g., 'git pull ...') before pushing again.\nhint: See the 'Note about fast-forwards' in 'git push --help' for details.\n\u001b]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon\u0007isaacs-MacBook-Pro:project-brain-beacon isaac$ sos1\b\u001b[K20\b\u001b[K\b\u001b[K 20\n\n== doctor ==\nrepo_root: /Users/isaac/project-brain-beacon\nnode:  v22.18.0\nnpm:   10.9.3\npy3:   Python 3.13.1\n\n== ports (5090/5173) ==\n(none)\n"
+  -
     path: ".logs/help_2025-09-24_13-02-31.txt"
     bytes: 771
     inline: true
@@ -411,7 +440,7 @@ files:
     inline: false
   -
     path: "frontend/src/App.jsx"
-    bytes: 644
+    bytes: 5649
     inline: false
   -
     path: "frontend/src/components/PromptPackViewer.jsx"

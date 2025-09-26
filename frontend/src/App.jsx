@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { apiBase } from "./version-badge";
-import PromptPackViewer from "./PromptPackViewer.jsx";
-import STPViewer from "./STPViewer.jsx";
-import StatusCard from "./StatusCard.jsx";
+import PromptPackViewer from "./PromptPackViewer";
+import STPViewer from "./STPViewer";
+import StatusCard from "./StatusCard";
 
 const API_BASE = import.meta.env.VITE_API_BASE || apiBase || "";
 
@@ -61,7 +61,6 @@ function Section({ title, children }) {
 }
 
 export default function App() {
-  // Load core payloads (likely ready by the time user hits Copy).
   const stp = useFetchJSON("/stp.json", !!API_BASE);
   const promptPack = useFetchText("/prompt_pack", !!API_BASE);
   const runtime = useFetchJSON("/runtime", !!API_BASE);

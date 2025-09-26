@@ -1,11 +1,13 @@
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.responses import PlainTextResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 import json
+import os
+import platform
 import subprocess
 from datetime import datetime, timezone
 
@@ -19,7 +21,7 @@ STP_YAML = DIST / "stp.yaml"
 PROMPT_PACK_MD = DIST / "prompt_pack.md"
 AI_GUIDE_MD = ROOT / "AI_GUIDE.md"
 
-app = FastAPI(title="Project Brain Beacon API", version="1.0.0")
+app = FastAPI(title="Project Brain Beacon API", version="1.1.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -58,16 +60,23 @@ def _read_yaml_as_obj(p: Path) -> Dict[str, Any]:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed parsing YAML {p.name}: {e}")
 
+def _git(cmd: List[str]) -> str:
+    return subprocess.check_output(cmd, cwd=ROOT).decode().strip()
+
 def _git_info() -> Dict[str, Any]:
-    info = {"commit_short": None, "commit_full": None, "generated_at": _now_utc_iso()}
+    info = {"commit": None, "short": None, "generated_at": _now_utc_iso()}
     try:
-        short = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT).decode().strip()
-        full = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()
-        info["commit_short"] = short
-        info["commit_full"] = full
+        info["commit"] = _git(["git", "rev-parse", "HEAD"])
+        info["short"] = _git(["git", "rev-parse", "--short", "HEAD"])
     except Exception:
         pass
     return info
+
+def _latest_step_tag() -> str | None:
+    try:
+        return _git(["git", "describe", "--tags", "--match", "step-*", "--abbrev=0"])
+    except Exception:
+        return None
 
 # ---------- endpoints ----------
 
@@ -122,11 +131,73 @@ def version() -> JSONResponse:
         content={
             "ok": True,
             "service": "project-brain-beacon",
-            "commit": info["commit_short"],
-            "commit_full": info["commit_full"],
+            "commit": info["commit"],
+            "short": info["short"],
             "generated_at": info["generated_at"],
         },
         media_type="application/json",
     )
 
-# deploy: step-10A touch 2025-09-26T00:32:29Z
+@app.get("/runtime")
+def runtime() -> JSONResponse:
+    """
+    Environment/runtime snapshot for the Copy footer.
+    - python, os/platform, api_base (this service), web_base (from env if provided)
+    - render-ish flags and region if available
+    """
+    api_base = os.getenv("VITE_API_BASE") or os.getenv("RENDER_EXTERNAL_URL") or ""
+    web_base = os.getenv("VITE_WEB_BASE") or ""
+    data = {
+        "python": platform.python_version(),
+        "os": {
+            "system": platform.system(),
+            "release": platform.release(),
+            "machine": platform.machine(),
+        },
+        "api_base": api_base,
+        "web_base": web_base,
+        "render": {
+            "region": os.getenv("RENDER_REGION"),
+            "is_render": bool(os.getenv("RENDER")),
+        },
+        "generated_at": _now_utc_iso(),
+    }
+    return JSONResponse(content=data, media_type="application/json")
+
+@app.get("/diffstat")
+def diffstat() -> JSONResponse:
+    """
+    Diff (name-status) since latest step-* tag.
+    Returns: latest_tag, range, entries [{status, path}], and raw string.
+    """
+    latest = _latest_step_tag()
+    if not latest:
+        return JSONResponse(content={
+            "latest_tag": None,
+            "range": None,
+            "raw": "",
+            "entries": [],
+            "note": "No step-* tag found; create one to enable diffstat."
+        })
+    try:
+        raw = _git(["git", "diff", "--name-status", f"{latest}..HEAD"])
+        entries = []
+        for line in raw.splitlines():
+            if not line.strip():
+                continue
+            parts = line.split("\t", 1)
+            if len(parts) == 2:
+                status, path = parts
+                entries.append({"status": status, "path": path})
+        return JSONResponse(content={
+            "latest_tag": latest,
+            "range": f"{latest}..HEAD",
+            "raw": raw,
+            "entries": entries,
+        })
+    except Exception as e:
+        return JSONResponse(
+            content={"latest_tag": latest, "range": f"{latest}..HEAD", "error": str(e)},
+            media_type="application/json",
+        )
+

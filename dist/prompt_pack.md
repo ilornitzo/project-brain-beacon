@@ -1,10 +1,10 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-26T00:35:07.795203Z
+Generated: 2025-09-26T00:44:47.875802Z
 
 ## Project
 - Name: project-brain-beacon
 - Branch: main
-- Remote: https://github.com/ilornitzo/project-brain-beacon
+- Remote: git@github.com:ilornitzo/project-brain-beacon.git
 
 ## Git Snapshot
 - Last commit: 8560757f267bbce4e3d248a15802c2152355a3d7 — deploy: trigger Render rebuild for Step-10A (/stp.json)
@@ -13,12 +13,84 @@ Generated: 2025-09-26T00:35:07.795203Z
 
 ## Repo Tree (trimmed)
 - .api.pid
+- .env
 - .env.sample
     - stp.yml
 - .gitignore
+  - .ring
+  - .ring.bg
+  - .ring.pid
+  - .ring.test
+  - _last.log
+  - help_2025-09-24_09-34-49.txt
+  - help_2025-09-24_09-37-13.txt
+  - help_2025-09-24_10-25-29.txt
+  - help_2025-09-24_10-29-30.txt
+  - help_2025-09-24_10-53-26.txt
+  - help_2025-09-24_11-07-52.txt
+  - help_2025-09-24_12-05-51.txt
+  - help_2025-09-24_12-07-09.txt
+  - help_2025-09-24_12-08-04.txt
+  - help_2025-09-24_12-25-10.txt
+  - help_2025-09-24_12-26-41.txt
+  - help_2025-09-24_13-00-27.txt
+  - help_2025-09-24_13-02-31.txt
+  - help_2025-09-24_13-02-58.txt
+  - help_2025-09-24_13-07-55.txt
+  - help_2025-09-24_13-12-30.txt
+  - help_2025-09-24_13-14-26.txt
+  - help_2025-09-24_13-15-28.txt
+  - help_2025-09-24_13-19-59.txt
+  - help_2025-09-24_13-25-27.txt
+  - help_2025-09-24_13-36-18.txt
+  - help_2025-09-24_13-54-10.txt
+  - help_2025-09-24_13-54-39.txt
+  - help_2025-09-24_14-02-16.txt
+  - help_2025-09-24_14-02-19.txt
+  - help_2025-09-24_14-11-22.txt
+  - help_2025-09-24_14-17-28.txt
+  - help_2025-09-24_14-18-01.txt
+  - help_2025-09-24_19-15-07.txt
+  - help_2025-09-24_19-18-56.txt
+  - help_2025-09-24_19-19-32.txt
+  - help_2025-09-24_19-56-20.txt
+  - help_2025-09-24_20-01-02.txt
+  - help_2025-09-24_20-04-33.txt
+  - help_2025-09-24_20-07-43.txt
+  - help_2025-09-24_20-16-29.txt
+  - help_2025-09-24_20-17-07.txt
+  - help_2025-09-24_20-23-07.txt
+  - help_2025-09-24_20-27-22.txt
+  - help_2025-09-24_20-27-41.txt
+  - help_2025-09-25_09-00-42.txt
+  - help_2025-09-25_09-03-08.txt
+  - help_2025-09-25_09-04-58.txt
+  - help_2025-09-25_09-14-06.txt
+  - help_2025-09-25_09-18-08.txt
+  - help_2025-09-25_09-19-03.txt
+  - help_2025-09-25_09-19-46.txt
+  - help_2025-09-25_10-26-09.txt
+  - help_2025-09-25_10-42-30.txt
+  - help_2025-09-25_10-48-52.txt
+  - help_2025-09-25_10-56-28.txt
+  - help_2025-09-25_11-30-10.txt
+  - help_2025-09-25_11-35-54.txt
+  - help_2025-09-25_11-38-26.txt
+  - help_2025-09-25_11-40-10.txt
+  - help_2025-09-25_14-09-45.txt
+  - help_2025-09-25_14-30-39.txt
+  - help_2025-09-25_14-34-08.txt
+  - help_2025-09-25_16-13-03.txt
+  - help_2025-09-25_16-16-26.txt
+  - help_2025-09-25_17-15-00.txt
+  - help_2025-09-25_17-23-41.txt
+  - help_2025-09-25_17-32-40.txt
+  - help_2025-09-25_17-33-14.txt
+- .sos_autoring
 - AI_GUIDE.md
 - Dockerfile
 - README.md
+  - .env.local
   - .env.production
   - .gitignore
   - README.md

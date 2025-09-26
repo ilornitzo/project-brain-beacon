@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-26T19:52:11.693220Z
+Generated: 2025-09-26T20:11:05.623747Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,9 +7,9 @@ Generated: 2025-09-26T19:52:11.693220Z
 - Remote: https://github.com/ilornitzo/project-brain-beacon
 
 ## Git Snapshot
-- Last commit: b948362a2beccd036de0c5b687f15103ba61e489 — chore: ensure dist/ generated on Render build — Step-10C
+- Last commit: e4c9775f0ca9a754e92b8cfda61fd20bb038ec84 — step-11: footer bar with version info + header polish
 - Author: Isaac lornitzo
-- Date: 2025-09-26T12:51:51-07:00
+- Date: 2025-09-26T13:10:43-07:00
 
 ## Repo Tree (trimmed)
 - .api.pid
@@ -30,6 +30,7 @@ Generated: 2025-09-26T19:52:11.693220Z
     - App.css
     - App.jsx
       - react.svg
+      - FooterBar.jsx
       - PromptPackViewer.jsx
       - STPViewer.jsx
       - StatusCard.jsx

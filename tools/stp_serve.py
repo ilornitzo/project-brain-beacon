@@ -21,7 +21,25 @@ STP_YAML = DIST / "stp.yaml"
 PROMPT_PACK_MD = DIST / "prompt_pack.md"
 AI_GUIDE_MD = ROOT / "AI_GUIDE.md"
 
-app = FastAPI(title="Project Brain Beacon API", version="1.1.0")
+def _ensure_dist() -> None:
+    """Generate dist/* if missing, once, before serving."""
+    need = [STP_YAML, PROMPT_PACK_MD]
+    if all(p.exists() for p in need):
+        return
+    mk = ROOT / "tools" / "stp_make.py"
+    if mk.exists():
+        try:
+            subprocess.check_call(["python3", str(mk)], cwd=str(ROOT))
+        except Exception as e:
+            # Don't crash app; endpoints will 404 with clear message if still missing
+            print(f"[stp_serve] WARN: stp_make.py failed: {e}")
+    else:
+        print("[stp_serve] WARN: tools/stp_make.py not found; cannot generate dist/")
+
+# Generate dist if needed before app init
+_ensure_dist()
+
+app = FastAPI(title="Project Brain Beacon API", version="1.1.1")
 
 app.add_middleware(
     CORSMiddleware,
@@ -142,7 +160,7 @@ def version() -> JSONResponse:
 def runtime() -> JSONResponse:
     """
     Environment/runtime snapshot for the Copy footer.
-    - python, os/platform, api_base (this service), web_base (from env if provided)
+    - python, os/platform, api_base, web_base
     - render-ish flags and region if available
     """
     api_base = os.getenv("VITE_API_BASE") or os.getenv("RENDER_EXTERNAL_URL") or ""
@@ -200,4 +218,3 @@ def diffstat() -> JSONResponse:
             content={"latest_tag": latest, "range": f"{latest}..HEAD", "error": str(e)},
             media_type="application/json",
         )
-

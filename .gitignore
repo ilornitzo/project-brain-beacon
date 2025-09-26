@@ -6,3 +6,9 @@ dist/
 .env
 .logs/
 .sos_autoring
+
+# generated artifacts
+/dist/
+**/__pycache__/
+*.pyc
+.api.pid

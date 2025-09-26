@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-25T23:16:15.937264Z
+Generated: 2025-09-26T00:22:40.478746Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,9 +7,9 @@ Generated: 2025-09-25T23:16:15.937264Z
 - Remote: git@github.com:ilornitzo/project-brain-beacon.git
 
 ## Git Snapshot
-- Last commit: 49ac25010fa2bb4cd27435890674b33bdb4e80c3 — ui: Copy button appends universal footer + build trace
+- Last commit: 544597adc5968c4a2033cb53ed6f88dbb8d4c119 — api: add /stp.json and /prompt_pack.json endpoints (Step-10A)
 - Author: Isaac lornitzo
-- Date: 2025-09-25T14:40:02-07:00
+- Date: 2025-09-25T17:11:59-07:00
 
 ## Repo Tree (trimmed)
 - .api.pid
@@ -81,6 +81,8 @@ Generated: 2025-09-25T23:16:15.937264Z
   - help_2025-09-25_14-30-39.txt
   - help_2025-09-25_14-34-08.txt
   - help_2025-09-25_16-13-03.txt
+  - help_2025-09-25_16-16-26.txt
+  - help_2025-09-25_17-15-00.txt
 - .sos_autoring
 - AI_GUIDE.md
 - Dockerfile

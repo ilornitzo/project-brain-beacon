@@ -4,6 +4,7 @@ import apiBase from "./version-badge";
 import PromptPackViewer from "./components/PromptPackViewer.jsx";
 import STPViewer from "./components/STPViewer.jsx";
 import StatusCard from "./components/StatusCard.jsx";
+import FooterBar from "./components/FooterBar.jsx";
 
 const API_BASE = import.meta.env.VITE_API_BASE || apiBase || "";
 
@@ -144,7 +145,7 @@ export default function App() {
   const makeCopyBlock = () => {
     const header = [
       buildTrace,
-      "# Project Brain Beacon — Prompt Pack",
+      "# Project BRaiN Beacon — Prompt Pack",
       `Generated: ${(stp.data && stp.data.generated_at) || new Date().toISOString()}`,
       "",
       "## Project",
@@ -190,10 +191,12 @@ export default function App() {
     }
   }
 
+  const headerStyle = { display: "flex", alignItems: "center", justifyContent: "space-between" };
+
   return (
     <div className="App">
-      <header className="app-header">
-        <h1>Project Brain Beacon</h1>
+      <header className="app-header" style={headerStyle}>
+        <h1>Project BRaiN Beacon</h1>
         <div className="actions">
           <button onClick={handleCopy} title="Copy prompt pack with build trace, runtime, and diffstat">
             {copied ? "Copied ✓" : "Copy (enriched)"}
@@ -217,9 +220,7 @@ export default function App() {
         </Section>
       </main>
 
-      <footer className="app-footer">
-        <small>Powered by Soltrae • Copy now includes runtime & diffstat</small>
-      </footer>
+      <FooterBar apiBase={API_BASE} version={version.data || {}} />
     </div>
   );
 }

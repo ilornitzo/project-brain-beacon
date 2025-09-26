@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
-import { apiBase } from "./version-badge";
-import PromptPackViewer from "./PromptPackViewer";
-import STPViewer from "./STPViewer";
-import StatusCard from "./StatusCard";
+import apiBase from "./version-badge";
+import PromptPackViewer from "./components/PromptPackViewer.jsx";
+import STPViewer from "./components/STPViewer.jsx";
+import StatusCard from "./components/StatusCard.jsx";
 
 const API_BASE = import.meta.env.VITE_API_BASE || apiBase || "";
 

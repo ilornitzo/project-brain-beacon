@@ -61,7 +61,7 @@ function Section({ title, children }) {
 }
 
 export default function App() {
-  // Load core payloads (lazy enough to be ready by the time user hits Copy).
+  // Load core payloads (likely ready by the time user hits Copy).
   const stp = useFetchJSON("/stp.json", !!API_BASE);
   const promptPack = useFetchText("/prompt_pack", !!API_BASE);
   const runtime = useFetchJSON("/runtime", !!API_BASE);
@@ -90,7 +90,7 @@ export default function App() {
       ? `${runtime.data.os.system} ${runtime.data.os.release} (${runtime.data.os.machine})`
       : "unknown";
     const api = runtime.data?.api_base || API_BASE || "unknown";
-    const web = runtime.data?.web_base || window.location.origin;
+    const web = runtime.data?.web_base || (typeof window !== "undefined" ? window.location.origin : "");
     const when = runtime.data?.generated_at || new Date().toISOString();
     return [
       "### Runtime snapshot",

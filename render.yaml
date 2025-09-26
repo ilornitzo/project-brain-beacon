@@ -1,20 +1,25 @@
 services:
+  # === API (FastAPI/Uvicorn) ===
   - type: web
     name: project-brain-beacon-api
     env: python
-    buildCommand: pip install -r requirements.txt && python tools/stp_make.py
-    startCommand: uvicorn tools.stp_serve:app --host 0.0.0.0 --port $PORT
     plan: free
     region: oregon
+    buildCommand: pip install -r requirements.txt && python tools/stp_make.py
+    startCommand: uvicorn tools.stp_serve:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: ALLOWED_ORIGINS
+        # Include the production web URL plus localhost dev origins.
         value: https://project-brain-beacon-web.onrender.com, http://localhost:5173, http://127.0.0.1:5173
 
+  # === Web (Vite static site) ===
   - type: web
     name: project-brain-beacon-web
     env: static
+    plan: free
+    region: oregon
     buildCommand: |
       npm --prefix frontend ci
       npm --prefix frontend run build

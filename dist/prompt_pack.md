@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-26T16:26:43.361435Z
+Generated: 2025-09-26T17:31:03.100482Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,9 +7,9 @@ Generated: 2025-09-26T16:26:43.361435Z
 - Remote: git@github.com:ilornitzo/project-brain-beacon.git
 
 ## Git Snapshot
-- Last commit: 41ebfe9a6c34c0fe108f00bd9fde7987a8464a26 — ui: fix import resolution (no .jsx extensions, Step-10B)
+- Last commit: 7e3037a6d2dbf33018c85d460fa29ea0d2fb6821 — ui: correct apiBase import (default export) Step-10B
 - Author: Isaac lornitzo
-- Date: 2025-09-25T20:31:08-07:00
+- Date: 2025-09-26T09:26:43-07:00
 
 ## Repo Tree (trimmed)
 - .api.pid
@@ -99,6 +99,7 @@ Generated: 2025-09-26T16:26:43.361435Z
   - help_2025-09-25_20-28-20.txt
   - help_2025-09-25_20-31-25.txt
   - help_2025-09-25_20-32-36.txt
+  - help_2025-09-26_09-27-14.txt
 - .sos_autoring
 - AI_GUIDE.md
 - Dockerfile

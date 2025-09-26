@@ -1,7 +1,7 @@
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, Response
 from fastapi.responses import PlainTextResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 
 import yaml
 
-# NOTE: This file lives in tools/, so project root is its parent.
+# --- Paths ---
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 
@@ -21,24 +21,8 @@ STP_YAML = DIST / "stp.yaml"
 PROMPT_PACK_MD = DIST / "prompt_pack.md"
 AI_GUIDE_MD = ROOT / "AI_GUIDE.md"
 
-def _ensure_dist() -> None:
-    """Generate dist/* if missing, once, before serving."""
-    need = [STP_YAML, PROMPT_PACK_MD]
-    if all(p.exists() for p in need):
-        return
-    mk = ROOT / "tools" / "stp_make.py"
-    if mk.exists():
-        try:
-            subprocess.check_call(["python3", str(mk)], cwd=str(ROOT))
-        except Exception as e:
-            print(f"[stp_serve] WARN: stp_make.py failed: {e}")
-    else:
-        print("[stp_serve] WARN: tools/stp_make.py not found; cannot generate dist/")
-
-# Generate dist if needed before app init
-_ensure_dist()
-
-app = FastAPI(title="Project Brain Beacon API", version="1.1.2")
+# --- App ---
+app = FastAPI(title="Project BRaiN Beacon API", version="1.3.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -48,33 +32,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ---------- helpers ----------
-
+# --- Helpers ---
 def _now_utc_iso() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-
-def _read_text(p: Path) -> str:
-    if not p.exists():
-        raise HTTPException(status_code=404, detail=f"Missing file: {p.relative_to(ROOT)}")
-    try:
-        return p.read_text(encoding="utf-8")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed reading {p.name}: {e}")
-
-def _read_yaml_as_obj(p: Path) -> Dict[str, Any]:
-    if not p.exists():
-        raise HTTPException(status_code=404, detail=f"Missing file: {p.relative_to(ROOT)}")
-    try:
-        with p.open("r", encoding="utf-8") as f:
-            data = yaml.safe_load(f)
-        json.loads(json.dumps(data))  # ensure JSON-serializable
-        if not isinstance(data, dict):
-            raise ValueError("Top-level YAML is not a mapping/object")
-        return data
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed parsing YAML {p.name}: {e}")
 
 def _git(cmd: List[str]) -> str:
     return subprocess.check_output(cmd, cwd=ROOT).decode().strip()
@@ -83,18 +43,44 @@ def _git_info() -> Dict[str, Any]:
     info = {"commit": None, "short": None, "generated_at": _now_utc_iso()}
     try:
         info["commit"] = _git(["git", "rev-parse", "HEAD"])
-        info["short"] = _git(["git", "rev-parse", "--short", "HEAD"])
+        info["short"]  = _git(["git", "rev-parse", "--short", "HEAD"])
     except Exception:
         pass
     return info
 
-def _latest_step_tag() -> str | None:
+def _allowed_origins() -> List[str]:
+    raw = os.getenv("ALLOWED_ORIGINS", "")
+    parts = [p.strip() for p in raw.split(",") if p.strip()]
+    return parts
+
+def _ensure_dist_dev_hint() -> None:
+    """If dist/* are missing at startup (common in dev), print a friendly hint."""
+    need = [STP_YAML, PROMPT_PACK_MD]
+    if not all(p.exists() for p in need):
+        print("[stp_serve] INFO: dist artifacts missing.")
+        print("[stp_serve] Hint (dev): Run: python3 tools/stp_make.py")
+
+_ensure_dist_dev_hint()
+
+def _read_text_file(p: Path) -> Optional[str]:
     try:
-        return _git(["git", "describe", "--tags", "--match", "step-*", "--abbrev=0"])
+        return p.read_text(encoding="utf-8")
     except Exception:
         return None
 
-# ---------- endpoints ----------
+def _read_yaml_obj(p: Path) -> Optional[Dict[str, Any]]:
+    try:
+        with p.open("r", encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+        # ensure JSON-serializable
+        json.loads(json.dumps(data))
+        if not isinstance(data, dict):
+            return None
+        return data
+    except Exception:
+        return None
+
+# --- Endpoints ---
 
 @app.get("/", response_class=PlainTextResponse)
 def root_health() -> str:
@@ -104,45 +90,88 @@ def root_health() -> str:
 @app.get("/health")
 def healthz() -> JSONResponse:
     info = _git_info()
-    return JSONResponse(
-        content={
-            "ok": True,
-            "service": "project-brain-beacon",
-            "commit": info["short"] or info["commit"],
-            "generated_at": info["generated_at"],
+    data = {
+        "ok": True,
+        "service": "project-brain-beacon",
+        "commit": info["short"] or info["commit"],
+        "generated": info["generated_at"],
+        "origins": _allowed_origins(),
+        "runtime": {
+            "python": platform.python_version(),
+            "os": {
+                "system": platform.system(),
+                "release": platform.release(),
+                "machine": platform.machine(),
+            },
         },
-        media_type="application/json",
-    )
+    }
+    return JSONResponse(content=data, media_type="application/json")
 
-@app.get("/stp", response_class=PlainTextResponse)
+@app.get("/stp")
 def get_stp_yaml() -> Response:
-    text = _read_text(STP_YAML)
-    return Response(content=text, media_type="text/yaml; charset=utf-8")
+    """
+    Success: 200 text/plain; charset=utf-8 (YAML as plain text for strict clients)
+    Missing: 404 application/json { "error": "..." }
+    """
+    if not STP_YAML.exists():
+        return JSONResponse(status_code=404, content={"error": f"Missing file: {STP_YAML.relative_to(ROOT)}"})
+    text = _read_text_file(STP_YAML)
+    if text is None:
+        return JSONResponse(status_code=404, content={"error": "Failed to read stp.yaml"})
+    return Response(content=text, media_type="text/plain; charset=utf-8")
 
 @app.get("/stp.json")
 def get_stp_json() -> JSONResponse:
-    obj = _read_yaml_as_obj(STP_YAML)
+    """
+    Success: 200 application/json
+    Missing: 404 application/json { "error": "..." }
+    """
+    if not STP_YAML.exists():
+        return JSONResponse(status_code=404, content={"error": f"Missing file: {STP_YAML.relative_to(ROOT)}"})
+    obj = _read_yaml_obj(STP_YAML)
+    if obj is None:
+        return JSONResponse(status_code=404, content={"error": "Failed to parse stp.yaml"})
     return JSONResponse(content=obj, media_type="application/json")
 
-@app.get("/prompt_pack", response_class=PlainTextResponse)
-def get_prompt_pack() -> str:
-    return _read_text(PROMPT_PACK_MD)
+@app.get("/prompt_pack")
+def get_prompt_pack() -> Response:
+    """
+    Success: 200 text/markdown; charset=utf-8
+    Missing: 404 application/json { "error": "..." }
+    """
+    if not PROMPT_PACK_MD.exists():
+        return JSONResponse(status_code=404, content={"error": f"Missing file: {PROMPT_PACK_MD.relative_to(ROOT)}"})
+    text = _read_text_file(PROMPT_PACK_MD)
+    if text is None:
+        return JSONResponse(status_code=404, content={"error": "Failed to read prompt_pack.md"})
+    return Response(content=text, media_type="text/markdown; charset=utf-8")
 
 @app.get("/prompt_pack.json")
 def get_prompt_pack_json() -> JSONResponse:
-    md = _read_text(PROMPT_PACK_MD)
-    return JSONResponse(content={"markdown": md}, media_type="application/json")
+    """
+    Success: 200 application/json { "markdown": "..." }
+    Missing: 404 application/json { "error": "..." }
+    """
+    if not PROMPT_PACK_MD.exists():
+        return JSONResponse(status_code=404, content={"error": f"Missing file: {PROMPT_PACK_MD.relative_to(ROOT)}"})
+    text = _read_text_file(PROMPT_PACK_MD)
+    if text is None:
+        return JSONResponse(status_code=404, content={"error": "Failed to read prompt_pack.md"})
+    return JSONResponse(content={"markdown": text}, media_type="application/json")
 
-@app.get("/ai", response_class=PlainTextResponse)
-def get_ai_guide() -> str:
-    if AI_GUIDE_MD.exists():
-        return _read_text(AI_GUIDE_MD)
-    return (
-        "# AI Integration Guide\n"
-        "- Treat STP + Prompt Pack as ground truth.\n"
-        "- If you need a file, ask for its exact repo path.\n"
-        "- Provide full-file replacements only.\n"
-    )
+@app.get("/ai")
+@app.get("/howto")
+def get_ai_guide() -> Response:
+    """
+    Success: 200 text/markdown; charset=utf-8
+    Missing: 404 application/json { "error": "..." }
+    """
+    if not AI_GUIDE_MD.exists():
+        return JSONResponse(status_code=404, content={"error": f"Missing file: {AI_GUIDE_MD.relative_to(ROOT)}"})
+    text = _read_text_file(AI_GUIDE_MD)
+    if text is None:
+        return JSONResponse(status_code=404, content={"error": "Failed to read AI_GUIDE.md"})
+    return Response(content=text, media_type="text/markdown; charset=utf-8")
 
 @app.get("/version")
 def version() -> JSONResponse:
@@ -157,57 +186,3 @@ def version() -> JSONResponse:
         },
         media_type="application/json",
     )
-
-@app.get("/runtime")
-def runtime() -> JSONResponse:
-    api_base = os.getenv("VITE_API_BASE") or os.getenv("RENDER_EXTERNAL_URL") or ""
-    web_base = os.getenv("VITE_WEB_BASE") or ""
-    data = {
-        "python": platform.python_version(),
-        "os": {
-            "system": platform.system(),
-            "release": platform.release(),
-            "machine": platform.machine(),
-        },
-        "api_base": api_base,
-        "web_base": web_base,
-        "render": {
-            "region": os.getenv("RENDER_REGION"),
-            "is_render": bool(os.getenv("RENDER")),
-        },
-        "generated_at": _now_utc_iso(),
-    }
-    return JSONResponse(content=data, media_type="application/json")
-
-@app.get("/diffstat")
-def diffstat() -> JSONResponse:
-    latest = _latest_step_tag()
-    if not latest:
-        return JSONResponse(content={
-            "latest_tag": None,
-            "range": None,
-            "raw": "",
-            "entries": [],
-            "note": "No step-* tag found; create one to enable diffstat."
-        })
-    try:
-        raw = _git(["git", "diff", "--name-status", f"{latest}..HEAD"])
-        entries = []
-        for line in raw.splitlines():
-            if not line.strip():
-                continue
-            parts = line.split("\t", 1)
-            if len(parts) == 2:
-                status, path = parts
-                entries.append({"status": status, "path": path})
-        return JSONResponse(content={
-            "latest_tag": latest,
-            "range": f"{latest}..HEAD",
-            "raw": raw,
-            "entries": entries,
-        })
-    except Exception as e:
-        return JSONResponse(
-            content={"latest_tag": latest, "range": f"{latest}..HEAD", "error": str(e)},
-            media_type="application/json",
-        )

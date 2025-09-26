@@ -31,7 +31,6 @@ def _ensure_dist() -> None:
         try:
             subprocess.check_call(["python3", str(mk)], cwd=str(ROOT))
         except Exception as e:
-            # Don't crash app; endpoints will 404 with clear message if still missing
             print(f"[stp_serve] WARN: stp_make.py failed: {e}")
     else:
         print("[stp_serve] WARN: tools/stp_make.py not found; cannot generate dist/")
@@ -39,7 +38,7 @@ def _ensure_dist() -> None:
 # Generate dist if needed before app init
 _ensure_dist()
 
-app = FastAPI(title="Project Brain Beacon API", version="1.1.1")
+app = FastAPI(title="Project Brain Beacon API", version="1.1.2")
 
 app.add_middleware(
     CORSMiddleware,
@@ -68,8 +67,7 @@ def _read_yaml_as_obj(p: Path) -> Dict[str, Any]:
     try:
         with p.open("r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
-        # ensure json-serializable
-        json.loads(json.dumps(data))
+        json.loads(json.dumps(data))  # ensure JSON-serializable
         if not isinstance(data, dict):
             raise ValueError("Top-level YAML is not a mapping/object")
         return data
@@ -99,39 +97,44 @@ def _latest_step_tag() -> str | None:
 # ---------- endpoints ----------
 
 @app.get("/", response_class=PlainTextResponse)
-def healthz() -> str:
+def root_health() -> str:
     return "ok"
+
+@app.get("/healthz")
+@app.get("/health")
+def healthz() -> JSONResponse:
+    info = _git_info()
+    return JSONResponse(
+        content={
+            "ok": True,
+            "service": "project-brain-beacon",
+            "commit": info["short"] or info["commit"],
+            "generated_at": info["generated_at"],
+        },
+        media_type="application/json",
+    )
 
 @app.get("/stp", response_class=PlainTextResponse)
 def get_stp_yaml() -> Response:
-    """Serve STP as YAML (legacy)."""
     text = _read_text(STP_YAML)
     return Response(content=text, media_type="text/yaml; charset=utf-8")
 
 @app.get("/stp.json")
 def get_stp_json() -> JSONResponse:
-    """
-    Serve STP as strict JSON. Expected keys include:
-    stp_version, generated_at, project, git, summary, commands, next_actions, files
-    (Schema stays owned by stp.yaml.)
-    """
     obj = _read_yaml_as_obj(STP_YAML)
     return JSONResponse(content=obj, media_type="application/json")
 
 @app.get("/prompt_pack", response_class=PlainTextResponse)
 def get_prompt_pack() -> str:
-    """Serve the generated prompt pack markdown."""
     return _read_text(PROMPT_PACK_MD)
 
 @app.get("/prompt_pack.json")
 def get_prompt_pack_json() -> JSONResponse:
-    """JSON-wrapped prompt pack."""
     md = _read_text(PROMPT_PACK_MD)
     return JSONResponse(content={"markdown": md}, media_type="application/json")
 
 @app.get("/ai", response_class=PlainTextResponse)
 def get_ai_guide() -> str:
-    """Serve AI integration guide; minimal inline fallback keeps endpoint alive."""
     if AI_GUIDE_MD.exists():
         return _read_text(AI_GUIDE_MD)
     return (
@@ -143,7 +146,6 @@ def get_ai_guide() -> str:
 
 @app.get("/version")
 def version() -> JSONResponse:
-    """Best-effort commit metadata + generated_at."""
     info = _git_info()
     return JSONResponse(
         content={
@@ -158,11 +160,6 @@ def version() -> JSONResponse:
 
 @app.get("/runtime")
 def runtime() -> JSONResponse:
-    """
-    Environment/runtime snapshot for the Copy footer.
-    - python, os/platform, api_base, web_base
-    - render-ish flags and region if available
-    """
     api_base = os.getenv("VITE_API_BASE") or os.getenv("RENDER_EXTERNAL_URL") or ""
     web_base = os.getenv("VITE_WEB_BASE") or ""
     data = {
@@ -184,10 +181,6 @@ def runtime() -> JSONResponse:
 
 @app.get("/diffstat")
 def diffstat() -> JSONResponse:
-    """
-    Diff (name-status) since latest step-* tag.
-    Returns: latest_tag, range, entries [{status, path}], and raw string.
-    """
     latest = _latest_step_tag()
     if not latest:
         return JSONResponse(content={

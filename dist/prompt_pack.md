@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-28T14:58:52.885744Z
+Generated: 2025-09-28T20:57:16.495063Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,9 +7,9 @@ Generated: 2025-09-28T14:58:52.885744Z
 - Remote: https://github.com/ilornitzo/project-brain-beacon
 
 ## Git Snapshot
-- Last commit: 5ae94c80da18fb6eb9f580f383bf8568e0aee517 — docs: README quick start + onboarding (Step-15)
+- Last commit: 52428f2e0b5a1334a6629d70b196d0f2b34071f0 — step-16: multi-project index + UI switcher (persist selection)
 - Author: Isaac lornitzo
-- Date: 2025-09-28T07:57:07-07:00
+- Date: 2025-09-28T13:56:29-07:00
 
 ## Repo Tree (trimmed)
 - .api.pid
@@ -30,8 +30,10 @@ Generated: 2025-09-28T14:58:52.885744Z
     - vite.svg
     - App.css
     - App.jsx
+    - STPViewer.jsx
       - react.svg
       - FooterBar.jsx
+      - ProjectSwitcher.jsx
       - PromptPackViewer.jsx
       - STPViewer.jsx
       - StatusCard.jsx

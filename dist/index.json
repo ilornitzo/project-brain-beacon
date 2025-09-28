@@ -1,0 +1,21 @@
+{
+  "projects": [
+    {
+      "id": "brain",
+      "name": "Project BRaiN Beacon",
+      "stp_url": "https://project-brain-beacon-api.onrender.com/stp.json",
+      "ai_url": "https://project-brain-beacon-api.onrender.com/ai",
+      "prompt_pack_url": "https://project-brain-beacon-api.onrender.com/prompt_pack",
+      "tags": ["core", "prompt", "api"]
+    },
+    {
+      "id": "griffin-fd-map",
+      "name": "Griffin FD Map (placeholder)",
+      "stp_url": "https://project-brain-beacon-api.onrender.com/stp.json",
+      "ai_url": "https://project-brain-beacon-api.onrender.com/ai",
+      "prompt_pack_url": "https://project-brain-beacon-api.onrender.com/prompt_pack",
+      "tags": ["fire", "training", "map"]
+    }
+  ],
+  "generated_at": "NOW"
+}

@@ -31,14 +31,6 @@ jobs:
         run: python tools/stp_make.py
 
       - name: Upload STP artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: stp-artifacts
-          path: |
-            dist/stp.yaml
-            dist/prompt_pack.md
-          if-no-files-found: error
-
       - name: Detect changes
         id: diff
         run: |

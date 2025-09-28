@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-28T09:27:56.604434Z
+Generated: 2025-09-28T14:58:52.885744Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,9 +7,9 @@ Generated: 2025-09-28T09:27:56.604434Z
 - Remote: https://github.com/ilornitzo/project-brain-beacon
 
 ## Git Snapshot
-- Last commit: 74d23fe959755de407074569b402bb66d2228d46 — ci: daily STP refresh [skip ci]
-- Author: Project Brain Beacon CI
-- Date: 2025-09-27T09:27:45Z
+- Last commit: 5ae94c80da18fb6eb9f580f383bf8568e0aee517 — docs: README quick start + onboarding (Step-15)
+- Author: Isaac lornitzo
+- Date: 2025-09-28T07:57:07-07:00
 
 ## Repo Tree (trimmed)
 - .api.pid

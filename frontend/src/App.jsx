@@ -1,22 +1,24 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import apiBase from "./version-badge";
-import PromptPackViewer from "./components/PromptPackViewer.jsx";
 import STPViewer from "./components/STPViewer.jsx";
+import PromptPackViewer from "./components/PromptPackViewer.jsx";
 import StatusCard from "./components/StatusCard.jsx";
 import FooterBar from "./components/FooterBar.jsx";
+import ProjectSwitcher from "./components/ProjectSwitcher.jsx";
 
 const API_BASE = import.meta.env.VITE_API_BASE || apiBase || "";
+const SELECT_KEY = "brain.selectedProjectId";
 
-function useFetchJSON(path, enabled = true) {
+function useFetchJSONAbs(url) {
   const [data, setData] = useState(null);
   const [err, setErr] = useState(null);
   useEffect(() => {
     let alive = true;
     async function go() {
-      if (!enabled || !API_BASE) return;
+      if (!url) return;
       try {
-        const res = await fetch(`${API_BASE}${path}`);
+        const res = await fetch(url);
         if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
         const json = await res.json();
         if (alive) setData(json);
@@ -26,97 +28,72 @@ function useFetchJSON(path, enabled = true) {
     }
     go();
     return () => { alive = false; };
-  }, [path, enabled]);
+  }, [url]);
   return { data, err };
 }
 
-function useFetchText(path, enabled = true) {
-  const [text, setText] = useState(null);
-  const [err, setErr] = useState(null);
-  useEffect(() => {
-    let alive = true;
-    async function go() {
-      if (!enabled || !API_BASE) return;
-      try {
-        const res = await fetch(`${API_BASE}${path}`);
-        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-        const t = await res.text();
-        if (alive) setText(t);
-      } catch (e) {
-        if (alive) setErr(String(e));
-      }
-    }
-    go();
-    return () => { alive = false; };
-  }, [path, enabled]);
-  return { text, err };
-}
-
-function Section({ title, children }) {
-  return (
-    <div className="section">
-      <h2>{title}</h2>
-      {children}
-    </div>
-  );
+function useFetchJSON(path) {
+  return useFetchJSONAbs(API_BASE ? `${API_BASE}${path}` : null);
 }
 
 export default function App() {
-  const stp = useFetchJSON("/stp.json", !!API_BASE);
-  const promptPack = useFetchText("/prompt_pack", !!API_BASE);
-  const runtime = useFetchJSON("/runtime", !!API_BASE);
-  const diffstat = useFetchJSON("/diffstat", !!API_BASE);
-  const version = useFetchJSON("/version", !!API_BASE);
+  // Load index + version for footer
+  const index = useFetchJSON("/index.json");
+  const version = useFetchJSON("/version");
 
-  const [copied, setCopied] = useState(false);
+  // Selection persistence
+  const [selectedId, setSelectedId] = useState(() => {
+    try { return localStorage.getItem(SELECT_KEY) || null; } catch { return null; }
+  });
+  const projects = index.data?.projects || [];
 
+  // Choose current project (fallback to first if none)
+  const selected = useMemo(() => {
+    if (!projects.length) return null;
+    const byId = projects.find(p => p.id === selectedId);
+    return byId || projects[0];
+  }, [projects, selectedId]);
+
+  useEffect(() => {
+    if (selected?.id) {
+      try { localStorage.setItem(SELECT_KEY, selected.id); } catch {}
+    }
+  }, [selected?.id]);
+
+  // Derived endpoints for viewers + copy
+  const stpUrl = selected?.stp_url || (API_BASE ? `${API_BASE}/stp.json` : null);
+  const promptUrl = selected?.prompt_pack_url || (API_BASE ? `${API_BASE}/prompt_pack` : null);
+  const aiUrl = selected?.ai_url || (API_BASE ? `${API_BASE}/ai` : null);
+
+  // Runtime/health for status cards
+  const health = useFetchJSON("/healthz");
+  const runtime = useFetchJSON("/runtime");
+
+  // Copy payload (uses selected project URLs)
   const buildTrace = useMemo(() => {
-    const commitShort =
-      (version.data && (version.data.short || version.data.commit?.slice(0, 7))) || "unknown";
-    const commitFull =
-      (version.data && version.data.commit) || "unknown";
-    const gen = (version.data && version.data.generated_at) || new Date().toISOString();
+    const short = version.data?.short || version.data?.commit?.slice(0, 7) || "unknown";
+    const gen = version.data?.generated_at || new Date().toISOString();
     return [
       "### Build trace",
-      `commit: ${commitShort} (${commitFull})`,
+      `commit: ${short} (${version.data?.commit || "unknown"})`,
       `generated_at: ${gen}`,
-      "",
+      ""
     ].join("\n");
   }, [version.data]);
 
-  const runtimeBlock = useMemo(() => {
-    const py = runtime.data?.python || "unknown";
-    const os = runtime.data?.os
-      ? `${runtime.data.os.system} ${runtime.data.os.release} (${runtime.data.os.machine})`
-      : "unknown";
-    const api = runtime.data?.api_base || API_BASE || "unknown";
-    const web = runtime.data?.web_base || (typeof window !== "undefined" ? window.location.origin : "");
-    const when = runtime.data?.generated_at || new Date().toISOString();
+  const headerBlock = useMemo(() => {
     return [
-      "### Runtime snapshot",
-      `python: ${py}`,
-      `os: ${os}`,
-      `api_base: ${api}`,
-      `web_base: ${web}`,
-      `snapshot_at: ${when}`,
+      "# Project BRaiN Beacon — Prompt Pack",
+      `Generated: ${new Date().toISOString()}`,
       "",
+      "## Project (selected)",
+      `- ID: ${selected?.id || "(none)"}`,
+      `- Name: ${selected?.name || "(none)"}`,
+      `- STP: ${stpUrl || "(unset)"}`,
+      `- AI Guide: ${aiUrl || "(unset)"}`,
+      `- Prompt Pack: ${promptUrl || "(unset)"}`
     ].join("\n");
-  }, [runtime.data]);
-
-  const diffBlock = useMemo(() => {
-    const tag = diffstat.data?.latest_tag || "(none)";
-    const range = diffstat.data?.range || "";
-    const entries = (diffstat.data?.entries || []).map(e => `${e.status}\t${e.path}`);
-    const list = entries.length ? entries.join("\n") : "(no changes since latest step tag)";
-    return [
-      "### Diffstat since latest step-* tag",
-      `latest_tag: ${tag}`,
-      range ? `range: ${range}` : "",
-      "",
-      list,
-      "",
-    ].join("\n");
-  }, [diffstat.data]);
+  }, [selected, stpUrl, aiUrl, promptUrl]);
 
   const footer = useMemo(() => {
     return [
@@ -131,93 +108,82 @@ export default function App() {
       "3) Give me only **1–2 copy-paste terminal commands** to run next (assume repo root), **then stop and wait for my output**.",
       "",
       "## Rules of Engagement (universal)",
-      "- **Ground Truth:** Treat the Prompt Pack + STP snapshot as the single source of truth. If something is missing, **ask for the exact repo path** you need (e.g., `frontend/src/App.jsx`).",
-      "- **Full-File Replacements:** When changing code, provide **complete files** (no partial snippets).",
-      "- **Redline Notice:** If you must deviate from the plan, issue a short *Redline Notice* with rationale and safer alternatives before proceeding.",
-      "- **Snapshot Ritual:** After each meaningful change, guide me to: `git add -A && git commit -m \"<msg>\" && git tag -f step-XX && git push --follow-tags` (and capture any requested screenshots).",
-      "- **No Improvising:** If unsure, ask a clarifying question. Do **not** fabricate paths, APIs, or behavior.",
+      "- **Ground Truth:** Treat the Prompt Pack + STP snapshot as the single source of truth. If something is missing, **ask for the exact repo path**.",
+      "- **Full-File Replacements:** Provide **complete files** (no partial snippets).",
+      "- **Redline Notice:** If you must deviate, include rationale and safer alternatives.",
+      "- **Snapshot Ritual:** `git add -A && git commit -m \"<msg>\" && git tag -f step-XX && git push --follow-tags`.",
+      "- **No Improvising:** If unsure, ask first.",
       "",
       "(Universal footer — reusable across projects)",
-      "",
+      ""
     ].join("\n");
   }, []);
 
-  const makeCopyBlock = () => {
-    const header = [
+  function makeCopyBlock() {
+    const body = [
       buildTrace,
-      "# Project BRaiN Beacon — Prompt Pack",
-      `Generated: ${(stp.data && stp.data.generated_at) || new Date().toISOString()}`,
-      "",
-      "## Project",
-      `- Name: ${stp.data?.project?.name || "unknown"}`,
-      `- Branch: ${stp.data?.git?.branch || "main"}`,
-      `- Remote: ${stp.data?.git?.remote || ""}`,
-      "",
-      "## Git Snapshot",
-      `- Last commit: ${stp.data?.git?.last_commit || version.data?.commit || "unknown"}`,
-      `- Author: ${stp.data?.git?.author || "unknown"}`,
-      `- Date: ${stp.data?.git?.date || runtime.data?.generated_at || ""}`,
-      "",
-      "## Repo Tree (trimmed)",
-      ...(stp.data?.files?.trimmed_tree || []).map(line => `- ${line}`),
-      "",
-      "## Recreate snapshot",
-      `Run: python3 tools/stp_make.py  &&  ls -la dist`,
-      "",
-      "## Guidance for AI",
-      "- Treat this file and stp.yaml as ground truth.",
-      "- If a needed file is not inlined in stp.yaml, ask for it explicitly.",
-      "",
+      headerBlock,
+      "---",
+      "## Link targets",
+      `STP JSON: ${stpUrl || "(unset)"}`,
+      `AI Guide: ${aiUrl || "(unset)"}`,
+      `Prompt Pack: ${promptUrl || "(unset)"}`
     ].join("\n");
+    return [body, footer].join("\n---\n");
+  }
 
-    const pp = promptPack.text
-      ? promptPack.text.trim()
-      : "## Prompt Pack\n(loading or unavailable)";
-
-    const enriched = [runtimeBlock, diffBlock, footer].join("\n");
-
-    return [header, pp, enriched].join("\n---\n");
-  };
-
+  const [copied, setCopied] = useState(false);
   async function handleCopy() {
     try {
       const text = makeCopyBlock();
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      setTimeout(() => setCopied(false), 1200);
     } catch (e) {
-      console.error("Copy failed:", e);
-      alert("Copy failed — see console for details.");
+      alert("Copy failed — see console");
+      console.error(e);
     }
   }
 
-  const headerStyle = { display: "flex", alignItems: "center", justifyContent: "space-between" };
+  const headerStyle = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 };
 
   return (
     <div className="App">
       <header className="app-header" style={headerStyle}>
-        <h1>Project BRaiN Beacon</h1>
+        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <h1>Project BRaiN Beacon</h1>
+          {/* Project Switcher */}
+          <ProjectSwitcher
+            projects={projects}
+            selectedId={selected?.id || null}
+            onSelect={(id) => setSelectedId(id)}
+          />
+        </div>
         <div className="actions">
-          <button onClick={handleCopy} title="Copy prompt pack with build trace, runtime, and diffstat">
-            {copied ? "Copied ✓" : "Copy (enriched)"}
+          <button onClick={handleCopy} title="Copy prompt with selected project links">
+            {copied ? "Copied ✓" : "Copy (selected project)"}
           </button>
         </div>
       </header>
 
       <main>
-        <Section title="Status">
+        <div className="section">
+          <h2>Status</h2>
           <StatusCard title="API Base" value={API_BASE || "(unset)"} />
-          <StatusCard title="Commit" value={version.data?.short || "(…)"}/>
+          <StatusCard title="Project" value={selected ? `${selected.name} (${selected.id})` : "(none)"} />
+          <StatusCard title="Health" value={health.data?.ok ? "ok" : "(…)"}/>
           <StatusCard title="Runtime Python" value={runtime.data?.python || "(…)"}/>
-        </Section>
+        </div>
 
-        <Section title="STP Preview">
-          <STPViewer apiBase={API_BASE} />
-        </Section>
+        <div className="section">
+          <h2>STP Preview</h2>
+          <STPViewer apiBase={API_BASE} stpUrl={stpUrl} />
+        </div>
 
-        <Section title="Prompt Pack">
-          <PromptPackViewer apiBase={API_BASE} />
-        </Section>
+        <div className="section">
+          <h2>Prompt Pack</h2>
+          <PromptPackViewer apiBase={API_BASE} promptUrl={promptUrl} />
+        </div>
       </main>
 
       <FooterBar apiBase={API_BASE} version={version.data || {}} />

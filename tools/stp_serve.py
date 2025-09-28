@@ -19,10 +19,11 @@ DIST = ROOT / "dist"
 
 STP_YAML = DIST / "stp.yaml"
 PROMPT_PACK_MD = DIST / "prompt_pack.md"
+INDEX_JSON = DIST / "index.json"
 AI_GUIDE_MD = ROOT / "AI_GUIDE.md"
 
 # --- App ---
-app = FastAPI(title="Project BRaiN Beacon API", version="1.3.0")
+app = FastAPI(title="Project BRaiN Beacon API", version="1.4.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -53,15 +54,6 @@ def _allowed_origins() -> List[str]:
     parts = [p.strip() for p in raw.split(",") if p.strip()]
     return parts
 
-def _ensure_dist_dev_hint() -> None:
-    """If dist/* are missing at startup (common in dev), print a friendly hint."""
-    need = [STP_YAML, PROMPT_PACK_MD]
-    if not all(p.exists() for p in need):
-        print("[stp_serve] INFO: dist artifacts missing.")
-        print("[stp_serve] Hint (dev): Run: python3 tools/stp_make.py")
-
-_ensure_dist_dev_hint()
-
 def _read_text_file(p: Path) -> Optional[str]:
     try:
         return p.read_text(encoding="utf-8")
@@ -72,8 +64,17 @@ def _read_yaml_obj(p: Path) -> Optional[Dict[str, Any]]:
     try:
         with p.open("r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
-        # ensure JSON-serializable
-        json.loads(json.dumps(data))
+        json.loads(json.dumps(data))  # ensure JSON-serializable
+        if not isinstance(data, dict):
+            return None
+        return data
+    except Exception:
+        return None
+
+def _read_json_obj(p: Path) -> Optional[Dict[str, Any]]:
+    try:
+        with p.open("r", encoding="utf-8") as f:
+            data = json.load(f)
         if not isinstance(data, dict):
             return None
         return data
@@ -107,12 +108,22 @@ def healthz() -> JSONResponse:
     }
     return JSONResponse(content=data, media_type="application/json")
 
+@app.get("/index.json")
+def get_index() -> JSONResponse:
+    """
+    Serve file-backed project index from dist/index.json
+    Success: 200 application/json
+    Missing or invalid: 404 application/json { "error": "..." }
+    """
+    if not INDEX_JSON.exists():
+        return JSONResponse(status_code=404, content={"error": f"Missing file: {INDEX_JSON.relative_to(ROOT)}"})
+    obj = _read_json_obj(INDEX_JSON)
+    if obj is None:
+        return JSONResponse(status_code=404, content={"error": "Failed to parse index.json"})
+    return JSONResponse(content=obj, media_type="application/json")
+
 @app.get("/stp")
 def get_stp_yaml() -> Response:
-    """
-    Success: 200 text/plain; charset=utf-8 (YAML as plain text for strict clients)
-    Missing: 404 application/json { "error": "..." }
-    """
     if not STP_YAML.exists():
         return JSONResponse(status_code=404, content={"error": f"Missing file: {STP_YAML.relative_to(ROOT)}"})
     text = _read_text_file(STP_YAML)
@@ -122,10 +133,6 @@ def get_stp_yaml() -> Response:
 
 @app.get("/stp.json")
 def get_stp_json() -> JSONResponse:
-    """
-    Success: 200 application/json
-    Missing: 404 application/json { "error": "..." }
-    """
     if not STP_YAML.exists():
         return JSONResponse(status_code=404, content={"error": f"Missing file: {STP_YAML.relative_to(ROOT)}"})
     obj = _read_yaml_obj(STP_YAML)
@@ -135,10 +142,6 @@ def get_stp_json() -> JSONResponse:
 
 @app.get("/prompt_pack")
 def get_prompt_pack() -> Response:
-    """
-    Success: 200 text/markdown; charset=utf-8
-    Missing: 404 application/json { "error": "..." }
-    """
     if not PROMPT_PACK_MD.exists():
         return JSONResponse(status_code=404, content={"error": f"Missing file: {PROMPT_PACK_MD.relative_to(ROOT)}"})
     text = _read_text_file(PROMPT_PACK_MD)
@@ -148,10 +151,6 @@ def get_prompt_pack() -> Response:
 
 @app.get("/prompt_pack.json")
 def get_prompt_pack_json() -> JSONResponse:
-    """
-    Success: 200 application/json { "markdown": "..." }
-    Missing: 404 application/json { "error": "..." }
-    """
     if not PROMPT_PACK_MD.exists():
         return JSONResponse(status_code=404, content={"error": f"Missing file: {PROMPT_PACK_MD.relative_to(ROOT)}"})
     text = _read_text_file(PROMPT_PACK_MD)
@@ -162,10 +161,6 @@ def get_prompt_pack_json() -> JSONResponse:
 @app.get("/ai")
 @app.get("/howto")
 def get_ai_guide() -> Response:
-    """
-    Success: 200 text/markdown; charset=utf-8
-    Missing: 404 application/json { "error": "..." }
-    """
     if not AI_GUIDE_MD.exists():
         return JSONResponse(status_code=404, content={"error": f"Missing file: {AI_GUIDE_MD.relative_to(ROOT)}"})
     text = _read_text_file(AI_GUIDE_MD)

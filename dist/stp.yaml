@@ -1,15 +1,15 @@
 stp_version: "1"
-generated_at: "2025-09-27T09:27:44.895523Z"
+generated_at: "2025-09-28T09:27:56.604434Z"
 project:
   name: "project-brain-beacon"
   root: "/home/runner/work/project-brain-beacon/project-brain-beacon"
 git:
   branch: "main"
   remote_url: "https://github.com/ilornitzo/project-brain-beacon"
-  last_commit_hash: "2dd42d3e78c4f7579631d05259a16e16dca65695"
+  last_commit_hash: "74d23fe959755de407074569b402bb66d2228d46"
   last_commit_msg: "ci: daily STP refresh [skip ci]"
   last_commit_author: "Project Brain Beacon CI"
-  last_commit_date: "2025-09-26T23:57:17Z"
+  last_commit_date: "2025-09-27T09:27:45Z"
 summary:
   file_count: 34
   tree: "- .api.pid\n- .env.sample\n    - scheduled-stp.yml\n    - stp.yml\n- .gitignore\n- AI_GUIDE.md\n- Dockerfile\n- README.md\n  - .env.production\n  - .gitignore\n  - README.md\n  - eslint.config.js\n  - index.html\n  - package-lock.json\n  - package.json\n    - vite.svg\n    - App.css\n    - App.jsx\n      - react.svg\n      - FooterBar.jsx\n      - PromptPackViewer.jsx\n      - STPViewer.jsx\n      - StatusCard.jsx\n    - index.css\n    - main.jsx\n    - version-badge.js\n  - vite.config.js\n- main\n- render.yaml\n- requirements.txt\n- runtime.txt\n- stp_serve.py\n  - stp_make.py\n  - stp_serve.py"

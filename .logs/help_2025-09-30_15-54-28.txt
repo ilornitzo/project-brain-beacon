@@ -1,0 +1,30 @@
+Where:
+cwd: /Users/isaac/project-brain-beacon
+repo_root: /Users/isaac/project-brain-beacon
+branch @ shortSHA: feat/step-16a-copy-json @ 34b46f8
+
+With what:
+ node:  v22.18.0
+ npm:   10.9.3
+ py3:   Python 3.13.1
+
+== last command ==
+sos_ring_here
+exit: 0
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    55102 isaac   18u  IPv6 0x3fdc4d8b6c74a0f1      0t0  TCP [::1]:5173 (LISTEN)
+
+== recent terminal output (last 50 lines) ==
+]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beaconisaacs-MacBook-Pro:project-brain-beacon isaac$ sos 50
+
+== doctor ==
+repo_root: /Users/isaac/project-brain-beacon
+node:  v22.18.0
+npm:   10.9.3
+py3:   Python 3.13.1
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    55102 isaac   18u  IPv6 0x3fdc4d8b6c74a0f1      0t0  TCP [::1]:5173 (LISTEN)

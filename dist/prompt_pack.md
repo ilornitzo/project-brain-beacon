@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-30T00:56:20.479667Z
+Generated: 2025-09-30T01:18:49.394909Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,9 +7,9 @@ Generated: 2025-09-30T00:56:20.479667Z
 - Remote: https://github.com/ilornitzo/project-brain-beacon
 
 ## Git Snapshot
-- Last commit: eded1c19579efc19363e0c280f63faa1ed356fcc — feat: launcher Quick Copy + .brain.yml ingestion + critical inlining (Step-16b)
+- Last commit: 0650709a22e012b69cec8732cb06452521ee36f3 — feat: header Copy Snapshot (Step-16c) + build_trace commit/runtime wiring
 - Author: Isaac lornitzo
-- Date: 2025-09-29T17:56:01-07:00
+- Date: 2025-09-29T18:18:29-07:00
 
 ## Repo Tree (trimmed)
 - .api.pid

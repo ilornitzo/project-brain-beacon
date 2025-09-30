@@ -1,15 +1,15 @@
 stp_version: "1"
-generated_at: "2025-09-30T00:56:20.479667Z"
+generated_at: "2025-09-30T01:18:49.394909Z"
 project:
   name: "project-brain-beacon"
   root: "/home/runner/work/project-brain-beacon/project-brain-beacon"
 git:
   branch: "main"
   remote_url: "https://github.com/ilornitzo/project-brain-beacon"
-  last_commit_hash: "eded1c19579efc19363e0c280f63faa1ed356fcc"
-  last_commit_msg: "feat: launcher Quick Copy + .brain.yml ingestion + critical inlining (Step-16b)"
+  last_commit_hash: "0650709a22e012b69cec8732cb06452521ee36f3"
+  last_commit_msg: "feat: header Copy Snapshot (Step-16c) + build_trace commit/runtime wiring"
   last_commit_author: "Isaac lornitzo"
-  last_commit_date: "2025-09-29T17:56:01-07:00"
+  last_commit_date: "2025-09-29T18:18:29-07:00"
 summary:
   file_count: 156
   tree: "- .api.pid\n- .brain.yml\n- .env\n- .env.sample\n    - scheduled-stp.yml\n    - stp.yml\n- .gitignore\n  - .ring\n  - .ring.bg\n  - .ring.pid\n  - .ring.test\n  - _last.log\n  - help_2025-09-24_09-34-49.txt\n  - help_2025-09-24_09-37-13.txt\n  - help_2025-09-24_10-25-29.txt\n  - help_2025-09-24_10-29-30.txt\n  - help_2025-09-24_10-53-26.txt\n  - help_2025-09-24_11-07-52.txt\n  - help_2025-09-24_12-05-51.txt\n  - help_2025-09-24_12-07-09.txt\n  - help_2025-09-24_12-08-04.txt\n  - help_2025-09-24_12-25-10.txt\n  - help_2025-09-24_12-26-41.txt\n  - help_2025-09-24_13-00-27.txt\n  - help_2025-09-24_13-02-31.txt\n  - help_2025-09-24_13-02-58.txt\n  - help_2025-09-24_13-07-55.txt\n  - help_2025-09-24_13-12-30.txt\n  - help_2025-09-24_13-14-26.txt\n  - help_2025-09-24_13-15-28.txt\n  - help_2025-09-24_13-19-59.txt\n  - help_2025-09-24_13-25-27.txt\n  - help_2025-09-24_13-36-18.txt\n  - help_2025-09-24_13-54-10.txt\n  - help_2025-09-24_13-54-39.txt\n  - help_2025-09-24_14-02-16.txt\n  - help_2025-09-24_14-02-19.txt\n  - help_2025-09-24_14-11-22.txt\n  - help_2025-09-24_14-17-28.txt\n  - help_2025-09-24_14-18-01.txt\n  - help_2025-09-24_19-15-07.txt\n  - help_2025-09-24_19-18-56.txt\n  - help_2025-09-24_19-19-32.txt\n  - help_2025-09-24_19-56-20.txt\n  - help_2025-09-24_20-01-02.txt\n  - help_2025-09-24_20-04-33.txt\n  - help_2025-09-24_20-07-43.txt\n  - help_2025-09-24_20-16-29.txt\n  - help_2025-09-24_20-17-07.txt\n  - help_2025-09-24_20-23-07.txt\n  - help_2025-09-24_20-27-22.txt\n  - help_2025-09-24_20-27-41.txt\n  - help_2025-09-25_09-00-42.txt\n  - help_2025-09-25_09-03-08.txt\n  - help_2025-09-25_09-04-58.txt\n  - help_2025-09-25_09-14-06.txt\n  - help_2025-09-25_09-18-08.txt\n  - help_2025-09-25_09-19-03.txt\n  - help_2025-09-25_09-19-46.txt\n  - help_2025-09-25_10-26-09.txt\n  - help_2025-09-25_10-42-30.txt\n  - help_2025-09-25_10-48-52.txt\n  - help_2025-09-25_10-56-28.txt\n  - help_2025-09-25_11-30-10.txt\n  - help_2025-09-25_11-35-54.txt\n  - help_2025-09-25_11-38-26.txt\n  - help_2025-09-25_11-40-10.txt\n  - help_2025-09-25_14-09-45.txt\n  - help_2025-09-25_14-30-39.txt\n  - help_2025-09-25_14-34-08.txt\n  - help_2025-09-25_16-13-03.txt\n  - help_2025-09-25_16-16-26.txt\n  - help_2025-09-25_17-15-00.txt\n  - help_2025-09-25_17-23-41.txt\n  - help_2025-09-25_17-32-40.txt\n  - help_2025-09-25_17-33-14.txt\n  - help_2025-09-25_17-45-03.txt\n  - help_2025-09-25_18-43-45.txt\n  - help_2025-09-25_18-44-36.txt\n  - help_2025-09-25_19-30-02.txt\n  - help_2025-09-25_20-08-03.txt\n  - help_2025-09-25_20-11-22.txt\n  - help_2025-09-25_20-12-13.txt\n  - help_2025-09-25_20-12-54.txt\n  - help_2025-09-25_20-20-02.txt\n  - help_2025-09-25_20-21-54.txt\n  - help_2025-09-25_20-28-20.txt\n  - help_2025-09-25_20-31-25.txt\n  - help_2025-09-25_20-32-36.txt\n  - help_2025-09-26_09-27-14.txt\n  - help_2025-09-26_10-31-13.txt\n  - help_2025-09-26_10-46-41.txt\n  - help_2025-09-26_10-53-49.txt\n  - help_2025-09-26_11-03-16.txt\n  - help_2025-09-26_12-51-18.txt\n  - help_2025-09-26_13-06-42.txt\n  - help_2025-09-26_14-10-06.txt\n  - help_2025-09-26_14-52-10.txt\n  - help_2025-09-26_15-27-43.txt\n  - help_2025-09-26_15-29-42.txt\n  - help_2025-09-26_15-40-18.txt\n  - help_2025-09-26_15-41-44.txt\n  - help_2025-09-26_15-44-14.txt\n  - help_2025-09-26_16-32-20.txt\n  - help_2025-09-26_17-08-54.txt\n  - help_2025-09-26_17-26-50.txt\n  - help_2025-09-28_07-42-15.txt\n  - help_2025-09-28_07-43-56.txt\n  - help_2025-09-28_07-45-27.txt\n  - help_2025-09-28_07-47-42.txt\n  - help_2025-09-28_07-50-05.txt\n  - help_2025-09-28_07-57-39.txt\n  - help_2025-09-28_13-55-41.txt\n  - help_2025-09-28_14-00-05.txt\n  - help_2025-09-28_14-06-19.txt\n  - help_2025-09-28_15-28-41.txt\n  - help_2025-09-29_15-57-01.txt\n- .sos_autoring\n- AI_GUIDE.md\n- Dockerfile\n- README.md\n  - .env.production\n  - .gitignore\n  - README.md\n  - eslint.config.js\n  - index.html\n  - package-lock.json\n  - package.json\n    - brain.yml\n    - vite.svg\n    - App.css\n    - App.jsx\n    - FooterBar.jsx\n    - STPViewer.jsx\n      - react.svg\n      - FooterBar.jsx\n      - ProjectSwitcher.jsx\n      - PromptPackViewer.jsx\n      - QuickCopyButton.jsx\n      - STPViewer.jsx\n      - StatusCard.jsx\n    - criticalRegistry.js\n    - index.css\n      - copyComposer.js\n    - main.jsx\n    - version-badge.js\n  - vite.config.js\n- main\n- package-lock.json\n- package.json\n- render.yaml\n- requirements.txt\n- runtime.txt\n- stp_serve.py\n  - stp_make.py\n  - stp_serve.py"
@@ -711,7 +711,7 @@ files:
     inline: false
   -
     path: "frontend/src/App.jsx"
-    bytes: 5810
+    bytes: 6467
     inline: false
   -
     path: "frontend/src/index.css"

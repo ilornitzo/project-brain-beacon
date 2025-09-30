@@ -8,29 +8,37 @@ export default function QuickCopyButton({
   branch = "main",
   commit = {},
   runtime = {},
-  endpoints = {},     // { app_url, api_url, docs_url, other? } or per-project URLs
+  endpoints = {},
   label = "Quick Copy",
 }) {
   const [status, setStatus] = useState("");
+
+  function downloadText(text, name="brain_snapshot.json") {
+    const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    URL.revokeObjectURL(url); document.body.removeChild(a);
+  }
 
   async function handleCopy() {
     setStatus("Building…");
     try {
       const { text } = await composeCopyJSON({
-        projectId,
-        repo,
-        branch,
-        commit,
-        runtime,
-        endpoints,
-        file_tree: criticalFiles,  // high-signal files inline; rest ask-by-path
-        prompt_pack: "",           // leave empty unless you’ve fetched it
+        projectId, repo, branch, commit, runtime, endpoints,
+        file_tree: criticalFiles,
+        prompt_pack: "",
         source: "/stp.json",
       });
       const ok = await copyToClipboard(text);
-      setStatus(ok ? "Copied ✅" : "Opened copy tab — press ⌘C");
-      // Small auto-clear
-      setTimeout(() => setStatus(""), 1800);
+      if (ok) {
+        setStatus("Copied ✅");
+      } else {
+        downloadText(text);
+        setStatus("Clipboard blocked — downloaded ⬇️");
+      }
+      setTimeout(() => setStatus(""), 2000);
     } catch (e) {
       console.error("QuickCopy failed:", e);
       setStatus("Copy failed");

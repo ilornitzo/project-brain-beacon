@@ -1,5 +1,5 @@
 /**
- * BRaiN Copy v1 • JSON Composer with .brain.yml support + critical inlining
+ * BRaiN Copy v1 • JSON/YAML Composer with .brain.yml support + critical inlining
  */
 import yaml from "js-yaml";
 
@@ -25,9 +25,8 @@ export function parseCopyText(copyText="") {
   return JSON.parse(body);
 }
 
-function banner(projectId, source) {
-  return `// BRaiN Copy v1 • project=${projectId || "brain"} • source=${source || "/stp.json"}\n`;
-}
+function banner(projectId, source) { return `// BRaiN Copy v1 • project=${projectId || "brain"} • source=${source || "/stp.json"}\n`; }
+function bannerYaml(projectId, source) { return `# BRaiN Copy v1 • project=${projectId || "brain"} • source=${source || "/stp.json"}\n`; }
 
 export async function composeCopyJSON(opts={}) {
   const {
@@ -38,16 +37,29 @@ export async function composeCopyJSON(opts={}) {
   const brain = await safeFetch("/brain.yml") || {};
   await (safeFetch("/dist/index.json") || safeFetch("/index.json"));
 
-  let pp = (typeof prompt_pack === "string" && prompt_pack) ? prompt_pack : (await safeFetch("/dist/prompt_pack.md")) || "";
+  // Prefer a provided prompt_pack. Else try the project's prompt_pack_url, then local dist fallback.
+  let pp = typeof prompt_pack === "string" && prompt_pack ? prompt_pack : "";
+  if (!pp) {
+    const candidateUrls = [
+      endpoints?.other?.prompt_pack_url || "",
+      "/dist/prompt_pack.md",
+    ].filter(Boolean);
+    for (const u of candidateUrls) {
+      const t = await safeFetch(u);
+      if (typeof t === "string" && t.trim()) { pp = t; break; }
+    }
+  }
+  // Sanitize accidental HTML fallbacks (e.g., Vite index.html)
   if (typeof pp === "string") {
     const head = pp.trim().slice(0,50).toLowerCase();
-    if (head.startsWith("<!doctype") || head.startsWith("<html")) pp="";
+    if (head.startsWith("<!doctype") || head.startsWith("<html")) pp = "";
   }
 
   const build_trace = {
     repo: { name: nonEmpty(repo.name, brain?.project?.name || "project-brain-beacon"), remote: nonEmpty(repo.remote,"") },
     branch: nonEmpty(branch,"main"),
-    commit, generated_at: asUTC(), runtime,
+    commit, generated_at: asUTC(),
+    runtime, // runtime passed from the app
     endpoints: Object.keys(endpoints||{}).length ? endpoints : (brain?.endpoints || {}),
   };
 
@@ -66,7 +78,7 @@ export async function composeCopyJSON(opts={}) {
 
   const cs = brain?.current_step || { name:"Unknown", definition_of_done:[], commands:[] };
   const recent = Array.isArray(brain?.commands_recent) ? brain.commands_recent : [];
-  const commands = Array.isArray(cs.commands)&&cs.commands.length ? cs.commands : recent.slice(0,2);
+  const commands = Array.isArray(cs.commands) && cs.commands.length ? cs.commands : recent.slice(0,2);
   const current_step = { ...cs, commands };
 
   const troubleshooting = Array.isArray(brain?.troubleshooting) ? brain.troubleshooting : [];
@@ -88,38 +100,39 @@ export async function composeCopyJSON(opts={}) {
     }
   }
 
-  const prompt_pack_final=typeof pp==="string"?pp:"";
-
-  const footer = {
-    startup_asks:{ summary:"Summarize project state, confirm objective, list missing inputs.", next_actions:brain?.next_steps||[], commands:brain?.commands_recent||[] },
-    rules:[
-      "Treat .brain.yml + Prompt Pack as ground truth.",
-      "Use full-file replacements.",
-      "Use a Redline Notice if deviating.",
-      "Snapshot Ritual after each step (git add/commit/tag + screenshot).",
-      "Stop after 1–2 commands and wait for my output.",
-    ],
-    stop_rule:"Stop after 1–2 commands and wait for my output.",
+  const payload={
+    build_trace,
+    project_overview,
+    thread_brief,
+    current_step,
+    troubleshooting,
+    file_tree: file_tree_final.sort(),
+    important_files,
+    prompt_pack: typeof pp === "string" ? pp : "",
+    footer: {
+      startup_asks:{ summary:"Summarize project state, confirm objective, list missing inputs.", next_actions:brain?.next_steps||[], commands:brain?.commands_recent||[] },
+      rules:[
+        "Treat .brain.yml + Prompt Pack as ground truth.",
+        "Use full-file replacements.",
+        "Use a Redline Notice if deviating.",
+        "Snapshot Ritual after each step (git add/commit/tag + screenshot).",
+        "Stop after 1–2 commands and wait for my output.",
+      ],
+      stop_rule:"Stop after 1–2 commands and wait for my output.",
+    }
   };
-
-  const payload={ build_trace, project_overview, thread_brief, current_step, troubleshooting,
-                  file_tree:file_tree_final.sort(), important_files, prompt_pack:prompt_pack_final, footer };
 
   const text=banner(projectId,source)+JSON.stringify(payload,null,2);
   return { text,json:payload,jsonOnly:JSON.stringify(payload) };
 }
 
-/** Clipboard helper: simple version */
+export async function composeCopyYAML(opts={}) {
+  const { json } = await composeCopyJSON(opts);
+  const yml = yaml.dump(json, { noRefs: true, lineWidth: 1000 });
+  return { text: bannerYaml(opts.projectId, opts.source) + yml, yamlOnly: yml };
+}
+
 export async function copyToClipboard(text) {
-  if (navigator?.clipboard?.writeText) {
-    await navigator.clipboard.writeText(text);
-    return true;
-  }
-  const ta=document.createElement("textarea");
-  ta.value=text;
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand("copy");
-  document.body.removeChild(ta);
-  return true;
+  if (navigator?.clipboard?.writeText) { await navigator.clipboard.writeText(text); return true; }
+  const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); return true;
 }

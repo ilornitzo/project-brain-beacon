@@ -7,8 +7,11 @@ import StatusCard from "./components/StatusCard.jsx";
 import FooterBar from "./components/FooterBar.jsx";
 import ProjectSwitcher from "./components/ProjectSwitcher.jsx";
 import QuickCopyButton from "./components/QuickCopyButton.jsx";
+import EndOfThreadUpdate from "./components/EndOfThreadUpdate.jsx";
+import ProjectDetail from "./components/ProjectDetail.jsx";
 
 const API_BASE = import.meta.env.VITE_API_BASE || apiBase || "";
+const APP_ORIGIN = typeof window !== "undefined" ? window.location.origin : "";
 const SELECT_KEY = "brain.selectedProjectId";
 
 function useFetchJSONAbs(url) {
@@ -32,41 +35,46 @@ function useFetchJSONAbs(url) {
   }, [url]);
   return { data, err };
 }
-function useFetchJSON(path) {
-  return useFetchJSONAbs(API_BASE ? `${API_BASE}${path}` : null);
-}
+function useFetchJSON(path) { return useFetchJSONAbs(API_BASE ? `${API_BASE}${path}` : null); }
 
 export default function App() {
+  // API data
   const index   = useFetchJSON("/index.json");
   const version = useFetchJSON("/version");
   const runtime = useFetchJSON("/runtime");
   const health  = useFetchJSON("/healthz");
 
-  const [selectedId, setSelectedId] = useState(() => {
-    try { return localStorage.getItem(SELECT_KEY) || null; } catch { return null; }
-  });
+  // Selection
+  const [selectedId, setSelectedId] = useState(() => { try { return localStorage.getItem(SELECT_KEY) || null; } catch { return null; }});
   const projects = index.data?.projects || [];
   const selected = useMemo(() => {
     if (!projects.length) return null;
     const byId = projects.find(p => p.id === selectedId);
     return byId || projects[0];
   }, [projects, selectedId]);
-
   useEffect(() => { if (selected?.id) { try { localStorage.setItem(SELECT_KEY, selected.id); } catch {} }}, [selected?.id]);
 
-  const stpUrl    = selected?.stp_url || (API_BASE ? `${API_BASE}/stp.json`       : null);
+  // Derived endpoints for viewers
+  const stpUrl    = selected?.stp_url || (API_BASE ? `${API_BASE}/stp.json`     : null);
   const promptUrl = selected?.prompt_pack_url || (API_BASE ? `${API_BASE}/prompt_pack` : null);
-  const aiUrl     = selected?.ai_url || (API_BASE ? `${API_BASE}/ai`              : null);
+  const aiUrl     = selected?.ai_url || (API_BASE ? `${API_BASE}/ai`            : null);
 
+  // Enrichment for snapshots
   const commitInfo = useMemo(() => ({
     short: version.data?.short || (version.data?.commit ? String(version.data.commit).slice(0,7) : ""),
     full:  version.data?.commit || ""
   }), [version.data]);
+
   const runtimeInfo = useMemo(() => ({
     python: runtime.data?.python || "",
     node:   runtime.data?.node   || "",
     os:     runtime.data?.os     || ""
   }), [runtime.data]);
+
+  const baseEndpoints = useMemo(() => ({
+    app_url: APP_ORIGIN || "",
+    api_url: API_BASE   || "",
+  }), []);
 
   const headerStyle = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 };
 
@@ -82,7 +90,7 @@ export default function App() {
           />
         </div>
 
-        {/* Step-16c: Header Copy Snapshot for the selected project */}
+        {/* Header Copy Snapshot for the selected project */}
         <div className="actions">
           {selected && (
             <QuickCopyButton
@@ -92,8 +100,7 @@ export default function App() {
               commit={commitInfo}
               runtime={runtimeInfo}
               endpoints={{
-                app_url: "",
-                api_url: "",
+                ...baseEndpoints,
                 docs_url: selected.ai_url || "",
                 other: {
                   stp_url: selected.stp_url || "",
@@ -108,6 +115,7 @@ export default function App() {
       </header>
 
       <main className="space-y-8">
+        {/* Launcher list with Quick Copy per project */}
         <section>
           <h2>Projects</h2>
           {!projects.length ? (
@@ -130,8 +138,7 @@ export default function App() {
                       commit={commitInfo}
                       runtime={runtimeInfo}
                       endpoints={{
-                        app_url: "",
-                        api_url: "",
+                        ...baseEndpoints,
                         docs_url: p.ai_url || "",
                         other: {
                           stp_url: p.stp_url || "",
@@ -146,6 +153,35 @@ export default function App() {
               ))}
             </div>
           )}
+        </section>
+
+        {/* Project Detail for the selected project */}
+        {selected && (
+          <section>
+            <ProjectDetail
+              projectId={selected.id}
+              repo={{ name: selected.name || "project" }}
+              branch="main"
+              commit={commitInfo}
+              runtime={runtimeInfo}
+              endpoints={{
+                ...baseEndpoints,
+                docs_url: selected.ai_url || "",
+                other: {
+                  stp_url: selected.stp_url || "",
+                  prompt_pack_url: selected.prompt_pack_url || "",
+                  ai_url: selected.ai_url || ""
+                }
+              }}
+              fileTree={[]}      /* the component will fall back to criticalFiles */
+              promptPack={""}    /* composer now fetches via endpoints.other.prompt_pack_url */
+            />
+          </section>
+        )}
+
+        {/* End-of-thread updater helper */}
+        <section>
+          <EndOfThreadUpdate />
         </section>
 
         <section className="section">

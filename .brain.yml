@@ -1,75 +1,73 @@
 project:
   name: Project BRaiN Beacon
-  overview: >
-    BRaiN is a project brain that maintains a Single True Prompt (STP) and a full
-    JSON context snapshot so any new ChatGPT thread can continue work seamlessly.
-    It generates a one-click, bannered JSON briefing with build trace, steps,
-    troubleshooting, file tree, and critical inline files, while enforcing Git hygiene.
+  overview: 'BRaiN is a project brain that maintains a Single True Prompt (STP) and a full JSON context snapshot so any new ChatGPT thread can continue work seamlessly. It generates a one-click, bannered JSON briefing with build trace, steps, troubleshooting, file tree, and critical inline files, while enforcing Git hygiene.
+
+    '
   capabilities:
-    - One-click JSON snapshot for new threads (full context, deterministic order)
-    - STP + Prompt Pack generation (artifacts served, not tracked)
-    - Repo-tracked roadmap (.brain.yml) for steps, DoD, next steps, fixes, commands
-    - Critical-file inlining (small/high-signal files inline; others ask-by-path)
-    - Push ritual & hygiene guardrails to prevent drift
+  - One-click JSON snapshot for new threads (full context, deterministic order)
+  - STP + Prompt Pack generation (artifacts served, not tracked)
+  - Repo-tracked roadmap (.brain.yml) for steps, DoD, next steps, fixes, commands
+  - Critical-file inlining (small/high-signal files inline; others ask-by-path)
+  - Push ritual & hygiene guardrails to prevent drift
   architecture:
-    - Frontend: Vite + React (frontend/)
-    - Composer: frontend/src/lib/copyComposer.js
-    - UI: launcher list (Quick Copy) + project detail (human-readable sections)
-    - Artifacts: dist/index.json (tracked), dist/stp.yaml + dist/prompt_pack.md (generated, untracked)
+  - Frontend: Vite + React (frontend/)
+  - Composer: frontend/src/lib/copyComposer.js
+  - UI: launcher list (Quick Copy) + project detail (human-readable sections)
+  - Artifacts: dist/index.json (tracked), dist/stp.yaml + dist/prompt_pack.md (generated, untracked)
   data_sources:
-    - .brain.yml (this file; roadmap + narrative)
-    - Repo tree (trimmed of junk)
-    - Prompt Pack body (generated)
-    - Runtime/env (branch, commit, versions, endpoints)
-
+  - .brain.yml (this file; roadmap + narrative)
+  - Repo tree (trimmed of junk)
+  - Prompt Pack body (generated)
+  - Runtime/env (branch, commit, versions, endpoints)
 current_step:
-  name: Step-16b — Launcher list + Quick Copy
+  name: "Step-17 \u2014 Per-repo onboarding + updater wired"
   definition_of_done:
-    - Launcher shows all projects with a Quick Copy button per row
-    - Quick Copy outputs the full JSON snapshot (banner + all sections)
-    - Project detail page reuses the same composer for its Copy button
-
+  - Launcher shows all projects with a Quick Copy button per row
+  - Quick Copy outputs the full JSON snapshot (banner + all sections)
+  - Project detail page reuses the same composer for its Copy button
+  - Updater writes current_step + DoD + next_steps + recent commands
 next_steps:
-  - Step-16c — Promote “Copy Snapshot” in header on detail page
-  - Step-17 — Per-repo onboarding template & auto-detect
-  - Step-18 — Optional YAML export (secondary)
-
+- "Step-16c \u2014 Promote \u201CCopy Snapshot\u201D in header on detail page"
+- "Step-17 \u2014 Per-repo onboarding template & auto-detect"
+- "Step-18 \u2014 Optional YAML export (secondary)"
+- "Step-18 \u2014 Optional YAML export"
 goals:
-  - Paste-once, continue seamlessly: full detailed JSON context
-  - Simple updates: edit .brain.yml or run the updater script after each session
-
+- Paste-once, continue seamlessly: full detailed JSON context
+- Simple updates: edit .brain.yml or run the updater script after each session
 commands_recent:
-  - git fetch origin && git rebase origin/main && git push origin main
-
+- git fetch origin && git rebase origin/main && git push origin main
 risks:
-  - Generated files creeping into Git; keep dist/stp.yaml and dist/prompt_pack.md untracked
-  - Context drift if .brain.yml isn’t updated after steps
-  - Endpoint/ports missing; snapshot should still degrade gracefully
-
+- Generated files creeping into Git; keep dist/stp.yaml and dist/prompt_pack.md untracked
+- "Context drift if .brain.yml isn\u2019t updated after steps"
+- Endpoint/ports missing; snapshot should still degrade gracefully
 troubleshooting:
-  - issue: Generated files appeared in Git changes
-    cause: dist/stp.yaml and dist/prompt_pack.md are generated artifacts
-    fix:
-      - git rm -f dist/stp.yaml dist/prompt_pack.md
-      - GIT_EDITOR=true git rebase --continue
-      - python3 tools/stp_make.py
-
+- date_utc: '2025-09-30T01:27:00Z'
+  issue: Clipboard blocked in Safari
+  cause: Site permission blocks navigator.clipboard
+  fix:
+  - Use Chrome or Select JSON/Download JSON
+  - set Safari Website permissions to Allow for Clipboard
+- issue: Generated files appeared in Git changes
+  cause: dist/stp.yaml and dist/prompt_pack.md are generated artifacts
+  fix:
+  - git rm -f dist/stp.yaml dist/prompt_pack.md
+  - GIT_EDITOR=true git rebase --continue
+  - python3 tools/stp_make.py
 endpoints:
-  app_url: ""
-  api_url: ""
-  docs_url: ""
+  app_url: ''
+  api_url: ''
+  docs_url: ''
   other: {}
-
 critical_files:
   inline_paths:
-    - frontend/src/**
-    - tools/**
-    - render.yaml
-    - README.md
+  - frontend/src/**
+  - tools/**
+  - render.yaml
+  - README.md
   exclude_paths:
-    - node_modules/**
-    - dist/**
-    - .git/**
+  - node_modules/**
+  - dist/**
+  - .git/**
   allowlist:
-    - dist/index.json
+  - dist/index.json
   max_inline_kb: 10

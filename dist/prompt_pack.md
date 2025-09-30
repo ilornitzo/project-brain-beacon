@@ -1,5 +1,5 @@
 # Project Brain Beacon — Prompt Pack
-Generated: 2025-09-30T01:18:49.394909Z
+Generated: 2025-09-30T02:50:01.365867Z
 
 ## Project
 - Name: project-brain-beacon
@@ -7,9 +7,9 @@ Generated: 2025-09-30T01:18:49.394909Z
 - Remote: https://github.com/ilornitzo/project-brain-beacon
 
 ## Git Snapshot
-- Last commit: 0650709a22e012b69cec8732cb06452521ee36f3 — feat: header Copy Snapshot (Step-16c) + build_trace commit/runtime wiring
+- Last commit: 91f2f3081f0793fc4af6647c73e72f184dade684 — feat: Project Detail refresher view + UX copy fallbacks
 - Author: Isaac lornitzo
-- Date: 2025-09-29T18:18:29-07:00
+- Date: 2025-09-29T19:49:40-07:00
 
 ## Repo Tree (trimmed)
 - .api.pid
@@ -147,7 +147,9 @@ Generated: 2025-09-30T01:18:49.394909Z
     - FooterBar.jsx
     - STPViewer.jsx
       - react.svg
+      - EndOfThreadUpdate.jsx
       - FooterBar.jsx
+      - ProjectDetail.jsx
       - ProjectSwitcher.jsx
       - PromptPackViewer.jsx
       - QuickCopyButton.jsx
@@ -166,6 +168,7 @@ Generated: 2025-09-30T01:18:49.394909Z
 - requirements.txt
 - runtime.txt
 - stp_serve.py
+  - brain_update.py
   - stp_make.py
   - stp_serve.py
 

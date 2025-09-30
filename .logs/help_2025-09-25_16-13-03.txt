@@ -1,0 +1,98 @@
+Where:
+cwd: /Users/isaac/project-brain-beacon
+repo_root: /Users/isaac/project-brain-beacon
+branch @ shortSHA: main @ 49ac250
+
+With what:
+ node:  v22.18.0
+ npm:   10.9.3
+ py3:   Python 3.13.1
+
+== last command ==
+python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt pyyaml
+exit: 0
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    37515 isaac   18u  IPv6 0x2c7d3c1e43224c46      0t0  TCP [::1]:5173 (LISTEN)
+
+== recent terminal output (last 70 lines) ==
+Downloading fastapi-0.115.2-py3-none-any.whl (94 kB)
+Downloading fastapi-0.115.2-py3-none-any.whl (94 kB)
+Downloading uvicorn-0.30.6-py3-none-any.whl (62 kB)
+Downloading uvicorn-0.30.6-py3-none-any.whl (62 kB)
+Downloading starlette-0.40.0-py3-none-any.whl (73 kB)
+Downloading starlette-0.40.0-py3-none-any.whl (73 kB)
+Downloading pyyaml-6.0.3-cp313-cp313-macosx_11_0_arm64.whl (173 kB)
+Downloading pyyaml-6.0.3-cp313-cp313-macosx_11_0_arm64.whl (173 kB)
+Using cached httptools-0.6.4-cp313-cp313-macosx_11_0_arm64.whl (102 kB)
+Using cached httptools-0.6.4-cp313-cp313-macosx_11_0_arm64.whl (102 kB)
+Using cached python_dotenv-1.1.1-py3-none-any.whl (20 kB)
+Using cached python_dotenv-1.1.1-py3-none-any.whl (20 kB)
+Using cached uvloop-0.21.0-cp313-cp313-macosx_10_13_universal2.whl (1.5 MB)
+Using cached uvloop-0.21.0-cp313-cp313-macosx_10_13_universal2.whl (1.5 MB)
+Using cached watchfiles-1.1.0-cp313-cp313-macosx_11_0_arm64.whl (393 kB)
+Using cached watchfiles-1.1.0-cp313-cp313-macosx_11_0_arm64.whl (393 kB)
+Using cached websockets-15.0.1-cp313-cp313-macosx_11_0_arm64.whl (173 kB)
+Using cached websockets-15.0.1-cp313-cp313-macosx_11_0_arm64.whl (173 kB)
+Installing collected packages: websockets, uvloop, uvicorn, pyyaml, python-dotenv, httptools, watchfiles, starlette, fastapi
+Installing collected packages: websockets, uvloop, uvicorn, pyyaml, python-dotenv, httptools, watchfiles, starlette, fastapi
+  WARNING: The script websockets is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script websockets is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  Attempting uninstall: uvicorn
+  Attempting uninstall: uvicorn
+    Found existing installation: uvicorn 0.34.2
+    Found existing installation: uvicorn 0.34.2
+    Uninstalling uvicorn-0.34.2:
+    Uninstalling uvicorn-0.34.2:
+      Successfully uninstalled uvicorn-0.34.2
+      Successfully uninstalled uvicorn-0.34.2
+  WARNING: The script uvicorn is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script uvicorn is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script dotenv is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script dotenv is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script watchfiles is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script watchfiles is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  Attempting uninstall: starlette
+  Attempting uninstall: starlette
+    Found existing installation: starlette 0.46.2
+    Found existing installation: starlette 0.46.2
+    Uninstalling starlette-0.46.2:
+    Uninstalling starlette-0.46.2:
+      Successfully uninstalled starlette-0.46.2
+      Successfully uninstalled starlette-0.46.2
+  Attempting uninstall: fastapi
+  Attempting uninstall: fastapi
+    Found existing installation: fastapi 0.115.12
+    Found existing installation: fastapi 0.115.12
+    Uninstalling fastapi-0.115.12:
+    Uninstalling fastapi-0.115.12:
+      Successfully uninstalled fastapi-0.115.12
+      Successfully uninstalled fastapi-0.115.12
+  WARNING: The script fastapi is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script fastapi is installed in '/Users/isaac/Library/Python/3.13/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+
+
+Successfully installed fastapi-0.115.2 httptools-0.6.4 python-dotenv-1.1.1 pyyaml-6.0.3 starlette-0.40.0 uvicorn-0.30.6 uvloop-0.21.0 watchfiles-1.1.0 websockets-15.0.1
+Successfully installed fastapi-0.115.2 httptools-0.6.4 python-dotenv-1.1.1 pyyaml-6.0.3 starlette-0.40.0 uvicorn-0.30.6 uvloop-0.21.0 watchfiles-1.1.0 websockets-15.0.1
+]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beaconisaacs-MacBook-Pro:project-brain-beacon isaac$ isaacs-MacBook-Pro:project-brain-beacon isaac$ ssooss  7700
+
+== doctor ==
+repo_root: /Users/isaac/project-brain-beacon
+node:  v22.18.0
+npm:   10.9.3
+py3:   Python 3.13.1
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    37515 isaac   18u  IPv6 0x2c7d3c1e43224c46      0t0  TCP [::1]:5173 (LISTEN)

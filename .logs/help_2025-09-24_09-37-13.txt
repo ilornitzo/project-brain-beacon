@@ -1,0 +1,9 @@
+cwd: /Users/isaac/project-brain-beacon
+branch: HEAD @ 288cb62
+node: v22.18.0 | npm: 10.9.3 | python: 3.13.1
+
+== ports (5090/5173) ==
+(none)
+
+== make doctor ==
+make: *** No rule to make target `doctor'.  Stop.

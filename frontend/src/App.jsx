@@ -6,6 +6,7 @@ import PromptPackViewer from "./components/PromptPackViewer.jsx";
 import StatusCard from "./components/StatusCard.jsx";
 import FooterBar from "./components/FooterBar.jsx";
 import ProjectSwitcher from "./components/ProjectSwitcher.jsx";
+import QuickCopyButton from "./components/QuickCopyButton.jsx";
 
 const API_BASE = import.meta.env.VITE_API_BASE || apiBase || "";
 const SELECT_KEY = "brain.selectedProjectId";
@@ -69,82 +70,6 @@ export default function App() {
   const health = useFetchJSON("/healthz");
   const runtime = useFetchJSON("/runtime");
 
-  // Copy payload (uses selected project URLs)
-  const buildTrace = useMemo(() => {
-    const short = version.data?.short || version.data?.commit?.slice(0, 7) || "unknown";
-    const gen = version.data?.generated_at || new Date().toISOString();
-    return [
-      "### Build trace",
-      `commit: ${short} (${version.data?.commit || "unknown"})`,
-      `generated_at: ${gen}`,
-      ""
-    ].join("\n");
-  }, [version.data]);
-
-  const headerBlock = useMemo(() => {
-    return [
-      "# Project BRaiN Beacon — Prompt Pack",
-      `Generated: ${new Date().toISOString()}`,
-      "",
-      "## Project (selected)",
-      `- ID: ${selected?.id || "(none)"}`,
-      `- Name: ${selected?.name || "(none)"}`,
-      `- STP: ${stpUrl || "(unset)"}`,
-      `- AI Guide: ${aiUrl || "(unset)"}`,
-      `- Prompt Pack: ${promptUrl || "(unset)"}`
-    ].join("\n");
-  }, [selected, stpUrl, aiUrl, promptUrl]);
-
-  const footer = useMemo(() => {
-    return [
-      "## How to start a new ChatGPT thread (universal)",
-      "1) Paste the whole block you just copied into a fresh thread.",
-      '2) Begin with: "You are my project mentor. Read everything below and acknowledge."',
-      "3) Then continue with the **Startup Asks** verbatim.",
-      "",
-      "## Startup Asks (always do these first)",
-      "1) In 5 sentences max, summarize the project and current state using only the provided materials.",
-      "2) List 2–3 **next_actions** with a clear **Definition of Done** for each.",
-      "3) Give me only **1–2 copy-paste terminal commands** to run next (assume repo root), **then stop and wait for my output**.",
-      "",
-      "## Rules of Engagement (universal)",
-      "- **Ground Truth:** Treat the Prompt Pack + STP snapshot as the single source of truth. If something is missing, **ask for the exact repo path**.",
-      "- **Full-File Replacements:** Provide **complete files** (no partial snippets).",
-      "- **Redline Notice:** If you must deviate, include rationale and safer alternatives.",
-      "- **Snapshot Ritual:** `git add -A && git commit -m \"<msg>\" && git tag -f step-XX && git push --follow-tags`.",
-      "- **No Improvising:** If unsure, ask first.",
-      "",
-      "(Universal footer — reusable across projects)",
-      ""
-    ].join("\n");
-  }, []);
-
-  function makeCopyBlock() {
-    const body = [
-      buildTrace,
-      headerBlock,
-      "---",
-      "## Link targets",
-      `STP JSON: ${stpUrl || "(unset)"}`,
-      `AI Guide: ${aiUrl || "(unset)"}`,
-      `Prompt Pack: ${promptUrl || "(unset)"}`
-    ].join("\n");
-    return [body, footer].join("\n---\n");
-  }
-
-  const [copied, setCopied] = useState(false);
-  async function handleCopy() {
-    try {
-      const text = makeCopyBlock();
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1200);
-    } catch (e) {
-      alert("Copy failed — see console");
-      console.error(e);
-    }
-  }
-
   const headerStyle = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 };
 
   return (
@@ -160,30 +85,70 @@ export default function App() {
           />
         </div>
         <div className="actions">
-          <button onClick={handleCopy} title="Copy prompt with selected project links">
-            {copied ? "Copied ✓" : "Copy (selected project)"}
-          </button>
+          {/* Keep the existing (old) header copy button if you still want it rendered by its component */}
         </div>
       </header>
 
-      <main>
-        <div className="section">
+      <main className="space-y-8">
+        {/* Launcher list with Quick Copy per project */}
+        <section>
+          <h2>Projects</h2>
+          {!projects.length ? (
+            <div className="opacity-70">No projects found in /index.json.</div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {projects.map((p) => (
+                <div key={p.id} className="flex items-center justify-between border rounded-xl p-2">
+                  <div className="flex flex-col">
+                    <div className="font-medium">{p.name} <span className="opacity-70">({p.id})</span></div>
+                    <div className="text-xs opacity-70">
+                      STP: {p.stp_url || "—"} · AI: {p.ai_url || "—"} · Prompt: {p.prompt_pack_url || "—"}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <QuickCopyButton
+                      projectId={p.id}
+                      repo={{ name: p.name || "project" }}
+                      branch="main"
+                      commit={{}}
+                      runtime={{}}
+                      endpoints={{
+                        // Map known URLs into endpoints “other” so they travel in build_trace
+                        app_url: "",
+                        api_url: "",
+                        docs_url: p.ai_url || "",
+                        other: {
+                          stp_url: p.stp_url || "",
+                          prompt_pack_url: p.prompt_pack_url || "",
+                          ai_url: p.ai_url || ""
+                        }
+                      }}
+                      label="Quick Copy"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="section">
           <h2>Status</h2>
           <StatusCard title="API Base" value={API_BASE || "(unset)"} />
           <StatusCard title="Project" value={selected ? `${selected.name} (${selected.id})` : "(none)"} />
-          <StatusCard title="Health" value={health.data?.ok ? "ok" : "(…)"}/>
-          <StatusCard title="Runtime Python" value={runtime.data?.python || "(…)"}/>
-        </div>
+          <StatusCard title="Health" value={health.data?.ok ? "ok" : "(…)"} />
+          <StatusCard title="Runtime Python" value={runtime.data?.python || "(…)"} />
+        </section>
 
-        <div className="section">
+        <section className="section">
           <h2>STP Preview</h2>
           <STPViewer apiBase={API_BASE} stpUrl={stpUrl} />
-        </div>
+        </section>
 
-        <div className="section">
+        <section className="section">
           <h2>Prompt Pack</h2>
           <PromptPackViewer apiBase={API_BASE} promptUrl={promptUrl} />
-        </div>
+        </section>
       </main>
 
       <FooterBar apiBase={API_BASE} version={version.data || {}} />

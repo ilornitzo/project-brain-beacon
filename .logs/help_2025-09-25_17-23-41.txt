@@ -1,0 +1,134 @@
+Where:
+cwd: /Users/isaac/project-brain-beacon
+repo_root: /Users/isaac/project-brain-beacon
+branch @ shortSHA: HEAD @ 94b7721
+
+With what:
+ node:  v22.18.0
+ npm:   10.9.3
+ py3:   Python 3.13.1
+
+== last command ==
+git pull --rebase origin main
+exit: 1
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+Python  38287 isaac    3u  IPv4 0xecb4f8589b4fea61      0t0  TCP *:5090 (LISTEN)
+Python  38562 isaac    3u  IPv4 0xecb4f8589b4fea61      0t0  TCP *:5090 (LISTEN)
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    37515 isaac   18u  IPv6 0x2c7d3c1e43224c46      0t0  TCP [::1]:5173 (LISTEN)
+
+== recent terminal output (last 100 lines) ==
+>    >                    "g  enera"genertaetd_ead_ta"t: "i: nfionf["og["egneerneatreatde_dat_"at]",
+],
+>       >         },  
+},
+>         m>         emedia_typdia_tyep="eap="paplipcliactaiotnio/jns/josno"n,
+",
+>     )>    
+ )
+> PY> PY
+
+]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beaconisaacs-MacBook-Pro:project-brain-beacon isaac$ isaacs-MacBook-Pro:project-brain-beacon isaac$ git add -Ag && giit add -A && git commit -m "prt commit -m "prod: tools/sod: tptools/stp_serve adds /_sesrve adds /tps.jtpson and .json and /p/prrompt_ompt_papack.jck.json (son S(teStep-10p-1A)"0A) " &&&& git  tgit atga g- f- f ststep-ep-110a0a & &&& g git it pupsush -h --fo-folllow-tlow-taaggss
+
+[pre-commit] Regenerating STP snapshot…
+[pre-commit] Regenerating STP snapshot…
+/Users/isaac/project-brain-beacon/tools/stp_make.py:81: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now = datetime.utcnow().isoformat()+"Z"
+/Users/isaac/project-brain-beacon/tools/stp_make.py:81: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now = datetime.utcnow().isoformat()+"Z"
+✅ Snapshot written: dist/stp.yaml, dist/prompt_pack.md
+✅ Snapshot written: dist/stp.yaml, dist/prompt_pack.md
+[pre-commit] STP snapshot regenerated and staged.
+[pre-commit] STP snapshot regenerated and staged.
+[main f1b29c3] prod: tools/stp_serve adds /stp.json and /prompt_pack.json (Step-10A)
+ Committer: Isaac lornitzo <isaac@isaacs-MacBook-Pro.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 4 files changed, 122 insertions(+), 124 deletions(-)
+[main f1b29c3] prod: tools/stp_serve adds /stp.json and /prompt_pack.json (Step-10A)
+ Committer: Isaac lornitzo <isaac@isaacs-MacBook-Pro.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 4 files changed, 122 insertions(+), 124 deletions(-)
+Updated tag 'step-10a' (was f63d2ba)
+Updated tag 'step-10a' (was f63d2ba)
+To github.com:ilornitzo/project-brain-beacon.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:ilornitzo/project-brain-beacon.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+To github.com:ilornitzo/project-brain-beacon.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:ilornitzo/project-brain-beacon.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beaconisaacs-MacBook-Pro:project-brain-beacon isaac$ isaacs-MacBook-Pro:project-brain-beacon isaac$ git pull --rebase origin maingit pull --rebase origin main
+
+From github.com:ilornitzo/project-brain-beacon
+ * branch            main       -> FETCH_HEAD
+From github.com:ilornitzo/project-brain-beacon
+ * branch            main       -> FETCH_HEAD
+   544597a..94b7721  main       -> origin/main
+   544597a..94b7721  main       -> origin/main
+Rebasing (1/1)Rebasing (1/1)Auto-merging dist/prompt_pack.md
+CONFLICT (content): Merge conflict in dist/prompt_pack.md
+Auto-merging dist/stp.yaml
+CONFLICT (content): Merge conflict in dist/stp.yaml
+Auto-merging dist/prompt_pack.md
+CONFLICT (content): Merge conflict in dist/prompt_pack.md
+Auto-merging dist/stp.yaml
+CONFLICT (content): Merge conflict in dist/stp.yaml
+error: could not apply f1b29c3... prod: tools/stp_serve adds /stp.json and /prompt_pack.json (Step-10A)
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+error: could not apply f1b29c3... prod: tools/stp_serve adds /stp.json and /prompt_pack.json (Step-10A)
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply f1b29c3... prod: tools/stp_serve adds /stp.json and /prompt_pack.json (Step-10A)
+Could not apply f1b29c3... prod: tools/stp_serve adds /stp.json and /prompt_pack.json (Step-10A)
+]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beaconisaacs-MacBook-Pro:project-brain-beacon isaac$ isaacs-MacBook-Pro:project-brain-beacon isaac$ ssooss110000[K[K[K[K[K[K  110000
+
+== doctor ==
+repo_root: /Users/isaac/project-brain-beacon
+node:  v22.18.0
+npm:   10.9.3
+py3:   Python 3.13.1
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+Python  38287 isaac    3u  IPv4 0xecb4f8589b4fea61      0t0  TCP *:5090 (LISTEN)
+Python  38562 isaac    3u  IPv4 0xecb4f8589b4fea61      0t0  TCP *:5090 (LISTEN)
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    37515 isaac   18u  IPv6 0x2c7d3c1e43224c46      0t0  TCP [::1]:5173 (LISTEN)

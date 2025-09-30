@@ -1,0 +1,37 @@
+Where:
+cwd: /Users/isaac/project-brain-beacon
+repo_root: /Users/isaac/project-brain-beacon
+branch @ shortSHA: main @ 5ef66ee
+
+With what:
+ node:  v22.18.0
+ npm:   10.9.3
+ py3:   Python 3.13.1
+
+== last command ==
+sos3
+exit: 127
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+Python  38287 isaac    3u  IPv4 0xecb4f8589b4fea61      0t0  TCP *:5090 (LISTEN)
+Python  39482 isaac    3u  IPv4 0xecb4f8589b4fea61      0t0  TCP *:5090 (LISTEN)
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    37515 isaac   18u  IPv6 0x2c7d3c1e43224c46      0t0  TCP [::1]:5173 (LISTEN)
+
+== recent terminal output (last 3 lines) ==
+-bash: sos3: command not found
+]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beacon]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beaconisaacs-MacBook-Pro:project-brain-beacon isaac$ isaacs-MacBook-Pro:project-brain-beacon isaac$ ssooss  22[K[K33
+
+== doctor ==
+repo_root: /Users/isaac/project-brain-beacon
+node:  v22.18.0
+npm:   10.9.3
+py3:   Python 3.13.1
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+Python  38287 isaac    3u  IPv4 0xecb4f8589b4fea61      0t0  TCP *:5090 (LISTEN)
+Python  39482 isaac    3u  IPv4 0xecb4f8589b4fea61      0t0  TCP *:5090 (LISTEN)
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    37515 isaac   18u  IPv6 0x2c7d3c1e43224c46      0t0  TCP [::1]:5173 (LISTEN)

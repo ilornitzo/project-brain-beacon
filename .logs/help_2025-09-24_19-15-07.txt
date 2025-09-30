@@ -1,0 +1,24 @@
+cwd: /Users/isaac/project-brain-beacon
+repo_root: /Users/isaac/project-brain-beacon
+branch: main @ f0dbc41
+node: v22.18.0 | npm: 10.9.3 | python: 3.13.1
+
+== last command ==
+  	 echo "hello tail"; ls /definitely/not/here || true
+exit code: 0
+
+== ports (5090/5173) ==
+(none)
+
+== recent terminal output (last 5 lines) ==
+(none)
+
+== doctor ==
+root: /Users/isaac/project-brain-beacon
+git:  main @ f0dbc41
+node: v22.18.0
+npm:  10.9.3
+py:   3.13.1
+ports (5090/5173):
+(none)
+doctor: OK (inline)

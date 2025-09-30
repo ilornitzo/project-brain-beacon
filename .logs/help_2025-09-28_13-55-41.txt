@@ -1,0 +1,59 @@
+Where:
+cwd: /Users/isaac/project-brain-beacon
+repo_root: /Users/isaac/project-brain-beacon
+branch @ shortSHA: main @ ceb2058
+
+With what:
+ node:  v22.18.0
+ npm:   10.9.3
+ py3:   Python 3.13.1
+
+== last command ==
+git push --follow-tags
+exit: 1
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    49523 isaac   18u  IPv6 0x1adad0dbe071c960      0t0  TCP [::1]:5173 (LISTEN)
+
+== recent terminal output (last 30 lines) ==
+          name: stp-artifacts
+          path: |
+            dist/stp.yaml
+            dist/prompt_pack.md
+          if-no-files-found: error
+]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beaconisaacs-MacBook-Pro:project-brain-beacon isaac$ git tag step-14 && git push origin step-14
+fatal: tag 'step-14' already exists
+]7;file://isaacs-MacBook-Pro.local/Users/isaac/project-brain-beaconisaacs-MacBook-Pro:project-brain-beacon isaac$ cat > README.md <<'MD'
+> # Project Brain Beacon (BRaiN)
+> 
+> **BRaiN** is a tiny “project brain” that keeps your repo’s **Single True Prompt (STP)** artifacts fresh and makes it dead-simple to spin up a focused ChatGPT build thread. It generates two canonical files in `./dist/`:
+> - `stp.yaml` — machine-readable snapshot (ground truth: repo state, commands, rules).
+> - `prompt_pack.md` — human-friendly pack with the universal footer (Startup Asks, Rules of Engagement, Snapshot Ritual).
+> 
+> The **why**: future-you (or a teammate) can start productive AI-assisted work in under 5 minutes with the correct context and zero guesswork.
+> 
+> ---
+> 
+> ## ⚡ Quick Start — Local Dev (≤5 min)
+> 
+> > Prereqs: Node ≥ 18, Python 3.11+ (3.13 OK), `pip`, `git`.
+> 
+> 1) **Clone**
+> ```bash
+> git clone git@github.com:ilornitzo/project-brain-beacon.git
+> cd project-brain-beacon
+> 
+> python3 tools/stp_make.py && ls -la dist
+> 
+> 
+
+== doctor ==
+repo_root: /Users/isaac/project-brain-beacon
+node:  v22.18.0
+npm:   10.9.3
+py3:   Python 3.13.1
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    49523 isaac   18u  IPv6 0x1adad0dbe071c960      0t0  TCP [::1]:5173 (LISTEN)

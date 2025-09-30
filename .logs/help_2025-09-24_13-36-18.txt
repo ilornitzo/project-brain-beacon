@@ -1,0 +1,35 @@
+cwd: /Users/isaac/project-brain-beacon
+repo_root: /Users/isaac/project-brain-beacon
+branch: main @ f0dbc41
+node: v22.18.0 | npm: 10.9.3 | python: 3.13.1
+
+== last command ==
+  	 git status -sb && git remote -v
+exit code: 0
+
+== ports (5090/5173) ==
+node      21803 isaac   18u  IPv6 0xf5107ef84fdd1a46      0t0  TCP [::1]:5173 (LISTEN)
+
+== recent terminal output (last 200 lines) ==
+isaacs-MacBook-Pro:project-brain-beacon isaac$ ls /definitely/not/here
+ls: /definitely/not/here: No such file or directory
+## main...origin/main
+?? .env
+?? .env.sample
+?? .logs/
+?? .sos_autoring
+?? Dockerfile
+?? frontend/src/version-badge.js
+?? tools/__pycache__/
+origin	git@github.com:ilornitzo/project-brain-beacon.git (fetch)
+origin	git@github.com:ilornitzo/project-brain-beacon.git (push)
+
+== doctor ==
+root: /Users/isaac/project-brain-beacon
+git:  main @ f0dbc41
+node: v22.18.0
+npm:  10.9.3
+py:   3.13.1
+ports (5090/5173):
+node      21803 isaac   18u  IPv6 0xf5107ef84fdd1a46      0t0  TCP [::1]:5173 (LISTEN)
+doctor: OK (inline)

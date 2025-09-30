@@ -1,0 +1,32 @@
+Where:
+cwd: /Users/isaac/project-brain-beacon
+repo_root: /Users/isaac/project-brain-beacon
+branch @ shortSHA: HEAD @ c3321cb
+
+With what:
+ node:  v22.18.0
+ npm:   10.9.3
+ py3:   Python 3.13.1
+
+== last command ==
+cd ~/project-brain-beacon && git add .github/workflows/scheduled-stp.yml && git commit --no-verify -m "ci: scheduled refresh uploads artifacts only (no commit-back of generated files)" && git fetch origin && git rebase origin/main && git push origin main
+exit: 1
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    49523 isaac   18u  IPv6 0x1adad0dbe071c960      0t0  TCP [::1]:5173 (LISTEN)
+
+== recent terminal output (last 20 lines) ==
+(ring not active — run: sos_ring_on; showing .logs/_last.log)
+hello tail
+ls: /definitely/not/here: No such file or directory
+
+== doctor ==
+repo_root: /Users/isaac/project-brain-beacon
+node:  v22.18.0
+npm:   10.9.3
+py3:   Python 3.13.1
+
+== ports (5090/5173) ==
+COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    49523 isaac   18u  IPv6 0x1adad0dbe071c960      0t0  TCP [::1]:5173 (LISTEN)

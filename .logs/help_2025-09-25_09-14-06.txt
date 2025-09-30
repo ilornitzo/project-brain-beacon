@@ -1,0 +1,28 @@
+Where:
+cwd: /Users/isaac/project-brain-beacon
+repo_root: /Users/isaac/project-brain-beacon
+branch @ shortSHA: main @ f0dbc41
+
+With what:
+ node:  v22.18.0
+ npm:   10.9.3
+ py3:   Python 3.13.1
+
+== last command ==
+hello tail\nls: /definitely/not/here: No such file or directory
+exit: 1
+
+== ports (5090/5173) ==
+(none)
+
+== recent terminal output (last 5 lines) ==
+
+
+== doctor ==
+repo_root: /Users/isaac/project-brain-beacon
+node:  v22.18.0
+npm:   10.9.3
+py3:   Python 3.13.1
+
+== ports (5090/5173) ==
+(none)

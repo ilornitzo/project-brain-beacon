@@ -32,43 +32,41 @@ function useFetchJSONAbs(url) {
   }, [url]);
   return { data, err };
 }
-
 function useFetchJSON(path) {
   return useFetchJSONAbs(API_BASE ? `${API_BASE}${path}` : null);
 }
 
 export default function App() {
-  // Load index + version for footer
-  const index = useFetchJSON("/index.json");
+  const index   = useFetchJSON("/index.json");
   const version = useFetchJSON("/version");
+  const runtime = useFetchJSON("/runtime");
+  const health  = useFetchJSON("/healthz");
 
-  // Selection persistence
   const [selectedId, setSelectedId] = useState(() => {
     try { return localStorage.getItem(SELECT_KEY) || null; } catch { return null; }
   });
   const projects = index.data?.projects || [];
-
-  // Choose current project (fallback to first if none)
   const selected = useMemo(() => {
     if (!projects.length) return null;
     const byId = projects.find(p => p.id === selectedId);
     return byId || projects[0];
   }, [projects, selectedId]);
 
-  useEffect(() => {
-    if (selected?.id) {
-      try { localStorage.setItem(SELECT_KEY, selected.id); } catch {}
-    }
-  }, [selected?.id]);
+  useEffect(() => { if (selected?.id) { try { localStorage.setItem(SELECT_KEY, selected.id); } catch {} }}, [selected?.id]);
 
-  // Derived endpoints for viewers + copy
-  const stpUrl = selected?.stp_url || (API_BASE ? `${API_BASE}/stp.json` : null);
+  const stpUrl    = selected?.stp_url || (API_BASE ? `${API_BASE}/stp.json`       : null);
   const promptUrl = selected?.prompt_pack_url || (API_BASE ? `${API_BASE}/prompt_pack` : null);
-  const aiUrl = selected?.ai_url || (API_BASE ? `${API_BASE}/ai` : null);
+  const aiUrl     = selected?.ai_url || (API_BASE ? `${API_BASE}/ai`              : null);
 
-  // Runtime/health for status cards
-  const health = useFetchJSON("/healthz");
-  const runtime = useFetchJSON("/runtime");
+  const commitInfo = useMemo(() => ({
+    short: version.data?.short || (version.data?.commit ? String(version.data.commit).slice(0,7) : ""),
+    full:  version.data?.commit || ""
+  }), [version.data]);
+  const runtimeInfo = useMemo(() => ({
+    python: runtime.data?.python || "",
+    node:   runtime.data?.node   || "",
+    os:     runtime.data?.os     || ""
+  }), [runtime.data]);
 
   const headerStyle = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 };
 
@@ -77,20 +75,39 @@ export default function App() {
       <header className="app-header" style={headerStyle}>
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           <h1>Project BRaiN Beacon</h1>
-          {/* Project Switcher */}
           <ProjectSwitcher
             projects={projects}
             selectedId={selected?.id || null}
             onSelect={(id) => setSelectedId(id)}
           />
         </div>
+
+        {/* Step-16c: Header Copy Snapshot for the selected project */}
         <div className="actions">
-          {/* Keep the existing (old) header copy button if you still want it rendered by its component */}
+          {selected && (
+            <QuickCopyButton
+              projectId={selected.id}
+              repo={{ name: selected.name || "project" }}
+              branch="main"
+              commit={commitInfo}
+              runtime={runtimeInfo}
+              endpoints={{
+                app_url: "",
+                api_url: "",
+                docs_url: selected.ai_url || "",
+                other: {
+                  stp_url: selected.stp_url || "",
+                  prompt_pack_url: selected.prompt_pack_url || "",
+                  ai_url: selected.ai_url || ""
+                }
+              }}
+              label="Copy Snapshot"
+            />
+          )}
         </div>
       </header>
 
       <main className="space-y-8">
-        {/* Launcher list with Quick Copy per project */}
         <section>
           <h2>Projects</h2>
           {!projects.length ? (
@@ -110,10 +127,9 @@ export default function App() {
                       projectId={p.id}
                       repo={{ name: p.name || "project" }}
                       branch="main"
-                      commit={{}}
-                      runtime={{}}
+                      commit={commitInfo}
+                      runtime={runtimeInfo}
                       endpoints={{
-                        // Map known URLs into endpoints “other” so they travel in build_trace
                         app_url: "",
                         api_url: "",
                         docs_url: p.ai_url || "",

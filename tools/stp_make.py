@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 import subprocess, json
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -78,7 +78,7 @@ def yml(v, ind=0):
         return "\n".join(out)
     return f"{s}{json.dumps(v)}"
 
-now = datetime.utcnow().isoformat()+"Z"
+now = datetime.now(timezone.utc).isoformat()
 stp = {
     "stp_version":"1",
     "generated_at": now,

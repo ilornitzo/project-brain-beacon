@@ -35,31 +35,43 @@ function useFetchJSONAbs(url) {
   }, [url]);
   return { data, err };
 }
-function useFetchJSON(path) { return useFetchJSONAbs(API_BASE ? `${API_BASE}${path}` : null); }
+
+function useFetchJSON(path) {
+  return useFetchJSONAbs(API_BASE ? `${API_BASE}${path}` : null);
+}
 
 export default function App() {
-  // API data
+  // Load index + version/runtime for footer & build_trace enrichment
   const index   = useFetchJSON("/index.json");
   const version = useFetchJSON("/version");
   const runtime = useFetchJSON("/runtime");
   const health  = useFetchJSON("/healthz");
 
-  // Selection
-  const [selectedId, setSelectedId] = useState(() => { try { return localStorage.getItem(SELECT_KEY) || null; } catch { return null; }});
+  // Selection persistence
+  const [selectedId, setSelectedId] = useState(() => {
+    try { return localStorage.getItem(SELECT_KEY) || null; } catch { return null; }
+  });
   const projects = index.data?.projects || [];
+
+  // Choose current project (fallback to first if none)
   const selected = useMemo(() => {
     if (!projects.length) return null;
     const byId = projects.find(p => p.id === selectedId);
     return byId || projects[0];
   }, [projects, selectedId]);
-  useEffect(() => { if (selected?.id) { try { localStorage.setItem(SELECT_KEY, selected.id); } catch {} }}, [selected?.id]);
 
-  // Derived endpoints for viewers
+  useEffect(() => {
+    if (selected?.id) {
+      try { localStorage.setItem(SELECT_KEY, selected.id); } catch {}
+    }
+  }, [selected?.id]);
+
+  // Derived endpoints for viewers + copy
   const stpUrl    = selected?.stp_url || (API_BASE ? `${API_BASE}/stp.json`     : null);
   const promptUrl = selected?.prompt_pack_url || (API_BASE ? `${API_BASE}/prompt_pack` : null);
   const aiUrl     = selected?.ai_url || (API_BASE ? `${API_BASE}/ai`            : null);
 
-  // Enrichment for snapshots
+  // Enrichment for snapshot composer
   const commitInfo = useMemo(() => ({
     short: version.data?.short || (version.data?.commit ? String(version.data.commit).slice(0,7) : ""),
     full:  version.data?.commit || ""
@@ -83,14 +95,13 @@ export default function App() {
       <header className="app-header" style={headerStyle}>
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           <h1>Project BRaiN Beacon</h1>
+          {/* Project Switcher */}
           <ProjectSwitcher
             projects={projects}
             selectedId={selected?.id || null}
             onSelect={(id) => setSelectedId(id)}
           />
         </div>
-
-        {/* Header Copy Snapshot for the selected project */}
         <div className="actions">
           {selected && (
             <QuickCopyButton
@@ -101,11 +112,11 @@ export default function App() {
               runtime={runtimeInfo}
               endpoints={{
                 ...baseEndpoints,
-                docs_url: selected.ai_url || "",
+                docs_url: selected?.ai_url || "",
                 other: {
-                  stp_url: selected.stp_url || "",
-                  prompt_pack_url: selected.prompt_pack_url || "",
-                  ai_url: selected.ai_url || ""
+                  stp_url: selected?.stp_url || "",
+                  prompt_pack_url: selected?.prompt_pack_url || "",
+                  ai_url: selected?.ai_url || ""
                 }
               }}
               label="Copy Snapshot"
@@ -114,96 +125,41 @@ export default function App() {
         </div>
       </header>
 
-      <main className="space-y-8">
-        {/* Launcher list with Quick Copy per project */}
-        <section>
-          <h2>Projects</h2>
-          {!projects.length ? (
-            <div className="opacity-70">No projects found in /index.json.</div>
-          ) : (
-            <div className="flex flex-col gap-2">
-              {projects.map((p) => (
-                <div key={p.id} className="flex items-center justify-between border rounded-xl p-2">
-                  <div className="flex flex-col">
-                    <div className="font-medium">{p.name} <span className="opacity-70">({p.id})</span></div>
-                    <div className="text-xs opacity-70">
-                      STP: {p.stp_url || "—"} · AI: {p.ai_url || "—"} · Prompt: {p.prompt_pack_url || "—"}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <QuickCopyButton
-                      projectId={p.id}
-                      repo={{ name: p.name || "project" }}
-                      branch="main"
-                      commit={commitInfo}
-                      runtime={runtimeInfo}
-                      endpoints={{
-                        ...baseEndpoints,
-                        docs_url: p.ai_url || "",
-                        other: {
-                          stp_url: p.stp_url || "",
-                          prompt_pack_url: p.prompt_pack_url || "",
-                          ai_url: p.ai_url || ""
-                        }
-                      }}
-                      label="Quick Copy"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Project Detail for the selected project */}
-        {selected && (
-          <section>
-            <ProjectDetail
-              projectId={selected.id}
-              repo={{ name: selected.name || "project" }}
-              branch="main"
-              commit={commitInfo}
-              runtime={runtimeInfo}
-              endpoints={{
-                ...baseEndpoints,
-                docs_url: selected.ai_url || "",
-                other: {
-                  stp_url: selected.stp_url || "",
-                  prompt_pack_url: selected.prompt_pack_url || "",
-                  ai_url: selected.ai_url || ""
-                }
-              }}
-              fileTree={[]}      /* the component will fall back to criticalFiles */
-              promptPack={""}    /* composer now fetches via endpoints.other.prompt_pack_url */
-            />
-          </section>
-        )}
-
-        {/* End-of-thread updater helper */}
-        <section>
-          <EndOfThreadUpdate />
-        </section>
-
-        <section className="section">
+      <main>
+        <div className="section">
           <h2>Status</h2>
           <StatusCard title="API Base" value={API_BASE || "(unset)"} />
           <StatusCard title="Project" value={selected ? `${selected.name} (${selected.id})` : "(none)"} />
-          <StatusCard title="Health" value={health.data?.ok ? "ok" : "(…)"} />
-          <StatusCard title="Runtime Python" value={runtime.data?.python || "(…)"} />
-        </section>
+          <StatusCard title="Health" value={health.data?.ok ? "ok" : "(…)" } />
+          <StatusCard title="Runtime Python" value={runtime.data?.python || "(…)" } />
+        </div>
 
-        <section className="section">
+        <div className="section">
           <h2>STP Preview</h2>
           <STPViewer apiBase={API_BASE} stpUrl={stpUrl} />
-        </section>
+        </div>
 
-        <section className="section">
+        <div className="section">
           <h2>Prompt Pack</h2>
           <PromptPackViewer apiBase={API_BASE} promptUrl={promptUrl} />
-        </section>
+        </div>
       </main>
 
-      <FooterBar apiBase={API_BASE} version={version.data || {}} />
+      {/* Footer now gets runtime + endpoints so copy JSON is enriched */}
+      <FooterBar
+        apiBase={API_BASE}
+        version={version.data || {}}
+        runtime={runtimeInfo}
+        endpoints={{
+          ...baseEndpoints,
+          docs_url: aiUrl || "",
+          other: {
+            stp_url: stpUrl || "",
+            prompt_pack_url: promptUrl || "",
+            ai_url: aiUrl || ""
+          }
+        }}
+      />
     </div>
   );
 }
